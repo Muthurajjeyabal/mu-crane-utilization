@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0b0f19" />
+  <meta name="description" content="MU Crane Utilization — Live crane capacity meter with safety zones. Static & dynamic lift checks for lifting supervisors and engineers. By JMR Lifting Solutions." />
+  <meta name="application-name" content="MU Crane Utilization" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MU Crane" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>MU Crane Utilization | Lifting Calculator</title>
+  <meta name="robots" content="index,follow" />
+  <meta name="keywords" content="crane utilization, lifting calculator, DAF, dynamic amplification factor, crane capacity, lift plan, rigging, offshore lifting, JMR Lifting Solutions, MU Tools" />
+  <meta name="author" content="MU Crane Utilization" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="MU Crane Utilization | Lifting Calculator" />
+  <meta property="og:description" content="Live crane capacity meter with safety zones. Static & dynamic lift checks for lifting supervisors and engineers. By JMR Lifting Solutions." />
+  <meta property="og:site_name" content="MU Crane Utilization" />
+  <meta property="og:image" content="https://muthurajjeyabal.github.io/mu-crane-utilization/icon-512.png" />
+  <meta property="og:url" content="https://muthurajjeyabal.github.io/mu-crane-utilization/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="MU Crane Utilization | Lifting Calculator" />
+  <meta name="twitter:description" content="Live crane capacity meter with safety zones. Static & dynamic lift checks for engineers." />
+  <meta name="twitter:image" content="https://muthurajjeyabal.github.io/mu-crane-utilization/icon-512.png" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card: #141b2d;
+      --card2: #1a2338;
+      --border: #243047;
+      --text: #e8edf5;
+      --muted: #8b9bb4;
+      --accent: #3b82f6;
+      --green: #22c55e;
+      --orange: #f59e0b;
+      --red: #ef4444;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+      padding-bottom: 40px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-top: 8px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+      background: transparent;
+      padding: 0;
+    }
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .logo-text h1 { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
+    .logo-text p { font-size: 10px; color: var(--muted); font-weight: 500; }
+    .lang-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .lang-btn:active { transform: scale(0.97); }
+    .page-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.03em; }
+    .page-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+    .input-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .input-group { margin-bottom: 16px; }
+    .input-group:last-child { margin-bottom: 0; }
+    .input-label {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px;
+    }
+    .input-label span { font-size: 13px; font-weight: 600; color: var(--muted); }
+    .unit-tag {
+      font-size: 11px; background: var(--card2); padding: 2px 8px;
+      border-radius: 6px; color: var(--accent); font-weight: 600;
+    }
+    .helper-text {
+      font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.4; opacity: 0.85;
+    }
+    input[type="number"] {
+      width: 100%;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 16px; font-weight: 600; color: var(--text);
+      outline: none; transition: border-color 0.2s;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type="number"]:focus { border-color: var(--accent); }
+    input[type="number"].error { border-color: var(--red); }
+
+    .lift-type-group { margin-bottom: 18px; }
+    .lift-type-label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
+    .lift-type-toggle {
+      display: flex;
+      background: var(--card2);
+      border-radius: 12px;
+      padding: 4px;
+      border: 1px solid var(--border);
+    }
+    .lift-type-btn {
+      flex: 1;
+      padding: 11px 12px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lift-type-btn.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .calc-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      transition: transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    }
+    .calc-btn:active { transform: scale(0.98); }
+
+    .results-section {
+      display: none;
+    }
+    .results-section.show {
+      display: block;
+      animation: fadeSlide 0.35s ease;
+    }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .gauge-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 20px 24px;
+      margin-bottom: 16px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .gauge-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--orange), var(--red));
+      opacity: 0.6;
+    }
+    .gauge-wrapper { position: relative; width: 220px; height: 130px; margin: 0 auto 12px; }
+    .gauge-svg { width: 220px; height: 130px; }
+    .gauge-value { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; }
+    .gauge-percent {
+      font-size: 42px; font-weight: 800; letter-spacing: -0.04em; line-height: 1;
+      transition: color 0.3s ease;
+    }
+    .gauge-label {
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px;
+    }
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; font-weight: 700; margin-top: 8px;
+      transition: all 0.3s ease;
+    }
+    .status-safe { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+    .status-caution { background: rgba(245,158,11,0.15); color: var(--orange); border: 1px solid rgba(245,158,11,0.3); }
+    .status-danger { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.35); }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .result-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+    }
+    .result-box .label {
+      font-size: 11px; color: var(--muted); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px;
+    }
+    .result-box .value { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+    .result-box .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .result-box.category-box .value { font-size: 14px; font-weight: 800; }
+
+    .warning-box {
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .warning-box.show { display: block; }
+    .warning-box .title {
+      font-size: 13px; font-weight: 700; color: var(--red);
+      margin-bottom: 4px; display: flex; align-items: center; gap: 6px;
+    }
+    .warning-box p { font-size: 12px; color: #fca5a5; line-height: 1.45; }
+
+    .info-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .info-card h3 {
+      font-size: 13px; font-weight: 700; margin-bottom: 10px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .legend { display: flex; flex-direction: column; gap: 8px; }
+    .legend-item { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .legend-dot.green { background: var(--green); }
+    .legend-dot.orange { background: var(--orange); }
+    .legend-dot.red { background: var(--red); }
+    .standards { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .std-tag {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: 6px;
+    }
+    .footer-note {
+      font-size: 11px; color: var(--muted); text-align: left;
+      line-height: 1.5; margin-top: 12px;
+    }
+
+    /* Collapsible Formula */
+    .collapse-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      padding: 0;
+      background: none;
+      border: none;
+      width: 100%;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .collapse-header .arrow {
+      font-size: 12px;
+      transition: transform 0.25s ease;
+    }
+    .collapse-header.open .arrow {
+      transform: rotate(180deg);
+    }
+    .collapse-body {
+      display: none;
+      margin-top: 12px;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .collapse-body.open {
+      display: block;
+    }
+    .collapse-body .f {
+      font-family: ui-monospace, monospace;
+      color: #93c5fd;
+      margin-bottom: 6px;
+    }
+    .collapse-body .steps { color: var(--muted); }
+    .collapse-body .steps li { margin-left: 16px; margin-bottom: 3px; }
+
+
+    .daf-ref {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .daf-ref-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .daf-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .daf-chip {
+      flex: 1 1 calc(50% - 8px);
+      min-width: 120px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .daf-chip:active, .daf-chip.active {
+      border-color: var(--accent);
+      background: rgba(59, 130, 246, 0.12);
+    }
+    .daf-chip .sea {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      display: block;
+    }
+    .daf-chip .hs {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px;
+      display: block;
+    }
+    .daf-chip .val {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-top: 4px;
+      display: block;
+    }
+    .daf-ref-note {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.4;
+      opacity: 0.9;
+    }
+
+    .daf-select-btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+      background: var(--card2);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+    .daf-select-btn:active { opacity: 0.85; }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 200;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.show {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal-sheet {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px 20px 16px 16px;
+      width: 100%;
+      max-width: 448px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 20px 16px 24px;
+      animation: slideUp 0.28s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0.5; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .modal-header h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .modal-close {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--card2);
+      color: var(--muted);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .modal-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+    .modal-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 14px 14px;
+      margin-bottom: 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card2);
+      cursor: pointer;
+      text-align: left;
+      color: var(--text);
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .modal-option:active, .modal-option.selected {
+      border-color: var(--accent);
+      background: rgba(59, 130, 246, 0.12);
+    }
+    .modal-option .opt-info { flex: 1; }
+    .modal-option .opt-sea { font-size: 14px; font-weight: 700; display: block; }
+    .modal-option .opt-hs { font-size: 11px; color: var(--muted); margin-top: 2px; display: block; }
+    .modal-option .opt-daf {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .modal-note {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 12px;
+      line-height: 1.45;
+    }
+    .modal-apply {
+      width: 100%;
+      margin-top: 16px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .modal-apply:disabled { opacity: 0.45; cursor: not-allowed; }
+
+
+    .daf-field-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .daf-field-wrap input {
+      width: 100%;
+      padding-right: 48px;
+    }
+    .daf-pick-btn {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .daf-pick-btn:active { background: rgba(59,130,246,0.15); }
+
+
+    .lang-wrap {
+      position: relative;
+    }
+    .lang-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      min-width: 160px;
+      padding: 6px;
+      z-index: 100;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .lang-menu.show { display: block; animation: fadeSlide 0.15s ease; }
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+    }
+    .lang-option:hover, .lang-option.active {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--accent);
+    }
+    .lang-option .flag { font-size: 16px; }
+
+
+    .app-footer {
+      max-width: 480px;
+      margin: 28px auto 0;
+      padding: 20px 16px 32px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .app-footer-brand {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .app-footer-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .app-footer-sub strong { color: var(--text); font-weight: 600; }
+    .app-footer-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+    .app-footer-legal {
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.45;
+      opacity: 0.85;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon"><img src="data:image/png;base64,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" alt="MU" width="44" height="44" /></div>
+        <div class="logo-text">
+          <h1>MU Crane Utilization</h1>
+          <p>By JMR Lifting Solutions</p>
+        </div>
+      </div>
+      <div class="lang-wrap">
+        <button class="lang-btn" onclick="toggleLangMenu(event)" id="langBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
+          <span>🌐</span> <span id="langText">EN</span>
+        </button>
+        <div class="lang-menu" id="langMenu" role="listbox" aria-label="Languages">
+          <button type="button" class="lang-option active" data-lang="en" onclick="setLang('en')">
+            <span class="flag">🇬🇧</span> English
+          </button>
+          <button type="button" class="lang-option" data-lang="ta" onclick="setLang('ta')">
+            <span class="flag">🇮🇳</span> தமிழ்
+          </button>
+          <button type="button" class="lang-option" data-lang="pt" onclick="setLang('pt')">
+            <span class="flag">🇧🇷</span> Português
+          </button>
+          <button type="button" class="lang-option" data-lang="hi" onclick="setLang('hi')">
+            <span class="flag">🇮🇳</span> हिन्दी
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="page-title" id="title">Dynamic &amp; Static Lift Analysis</h2>
+    <p class="page-sub" id="subtitle">Enter values → Calculate → View results</p>
+
+    <!-- INPUTS -->
+    <div class="input-card">
+      <div class="lift-type-group">
+        <div class="lift-type-label" id="lblLiftType">Lift Type</div>
+        <div class="lift-type-toggle">
+          <button type="button" class="lift-type-btn active" id="btnStatic" onclick="setLiftType('static')" aria-pressed="true">Static Lift</button>
+          <button type="button" class="lift-type-btn" id="btnDynamic" onclick="setLiftType('dynamic')" aria-pressed="false">Dynamic Lift</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <span id="lblLoad">Load Weight</span>
+          <span class="unit-tag">t</span>
+        </div>
+        <input type="number" id="loadWeight" placeholder="Example: 18" min="0" step="0.1" />
+        <div class="helper-text" id="helpLoad">Enter the actual load weight only.</div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <span id="lblRigging">Rigging Weight</span>
+          <span class="unit-tag">t</span>
+        </div>
+        <input type="number" id="riggingWeight" placeholder="Example: 2.5" min="0" step="0.1" />
+        <div class="helper-text" id="helpRigging">Enter the total rigging weight (slings, shackles, spreader beam, lifting accessories, etc.).</div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <span id="lblHook">Hook Block Weight</span>
+          <span class="unit-tag">t</span>
+        </div>
+        <input type="number" id="hookBlockWeight" placeholder="Example: 1.2" min="0" step="0.1" />
+        <div class="helper-text" id="helpHook">Enter the crane hook block weight.</div>
+      </div>
+
+      <div class="input-group" id="dafGroup">
+        <div class="input-label">
+          <span id="lblDaf">Dynamic Amplification Factor (DAF)</span>
+          <span class="unit-tag">×</span>
+        </div>
+        <div class="daf-field-wrap">
+          <input type="number" id="daf" placeholder="Example: 1.10" min="1" max="3" step="0.01" value="1.10" />
+          <button type="button" class="daf-pick-btn" id="dafSelectBtn" onclick="openDafPopup()" title="Select Sea State" aria-label="Select sea state for DAF">
+            <span id="dafSelectBtnText">▼</span>
+          </button>
+        </div>
+        <div class="helper-text" id="helpDaf">Default 1.10 for dynamic lifts. Tap ▼ to select from sea state table. Minimum 1.00.</div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <span id="lblRadius">Crane Working Radius</span>
+          <span class="unit-tag">m</span>
+        </div>
+        <input type="number" id="workingRadius" placeholder="Example: 12" min="0" step="0.1" />
+        <div class="helper-text" id="helpRadius">Enter the working radius (for reference / record).</div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <span id="lblCapacity">Crane Rated Capacity at Selected Radius</span>
+          <span class="unit-tag">t</span>
+        </div>
+        <input type="number" id="craneCapacity" placeholder="Example: 30" min="0" step="0.1" />
+        <div class="helper-text" id="helpCapacity">Enter the crane rated capacity at the selected working radius.</div>
+      </div>
+    </div>
+
+    <button type="button" class="calc-btn" id="calcBtn" onclick="runCalculate()" aria-label="Calculate crane utilization">
+      <span>⚡</span>
+      <span id="calcBtnText">Calculate</span>
+    </button>
+
+    <!-- RESULTS -->
+    <div class="results-section" id="resultsSection" aria-live="polite">
+      <div class="gauge-card">
+        <div class="gauge-wrapper">
+          <svg class="gauge-svg" viewBox="0 0 220 130">
+            <path d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke="#1e293b" stroke-width="18" stroke-linecap="round"/>
+            <path d="M 20 110 A 90 90 0 0 1 110.5 20.1" fill="none" stroke="#22c55e" stroke-width="18" stroke-linecap="round" opacity="0.25"/>
+            <path d="M 110.5 20.1 A 90 90 0 0 1 173.5 47.3" fill="none" stroke="#f59e0b" stroke-width="18" stroke-linecap="round" opacity="0.25"/>
+            <path d="M 173.5 47.3 A 90 90 0 0 1 200 110" fill="none" stroke="#ef4444" stroke-width="18" stroke-linecap="round" opacity="0.25"/>
+            <path id="progressArc" d="M 20 110 A 90 90 0 0 1 20 110" fill="none" stroke="#22c55e" stroke-width="18" stroke-linecap="round" style="transition: stroke 0.35s ease"/>
+            <g id="needle" style="transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); transform-origin: 110px 110px;">
+              <line x1="110" y1="110" x2="110" y2="32" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="110" cy="110" r="8" fill="#e2e8f0"/>
+              <circle cx="110" cy="110" r="4" fill="#0b0f19"/>
+            </g>
+          </svg>
+          <div class="gauge-value">
+            <div class="gauge-percent" id="percentDisplay">0%</div>
+            <div class="gauge-label" id="utilLabel">Utilization</div>
+          </div>
+        </div>
+        <div class="status-badge status-safe" id="statusBadge">
+          <span id="statusIcon">○</span>
+          <span id="statusText">—</span>
+        </div>
+      </div>
+
+      <!-- Result cards: Load (one only) + Available + Margin + Lift Category -->
+      <div class="results-grid">
+        <div class="result-box" id="cardLoad">
+          <div class="label" id="resLoadLabel">Static Load</div>
+          <div class="value" id="resLoad">—</div>
+          <div class="sub">tonne</div>
+        </div>
+        <div class="result-box">
+          <div class="label" id="resAvailLabel">Available</div>
+          <div class="value" id="resAvailable">—</div>
+          <div class="sub">tonne</div>
+        </div>
+        <div class="result-box">
+          <div class="label" id="resMarginLabel">Safety Margin</div>
+          <div class="value" id="resMargin">—</div>
+          <div class="sub">%</div>
+        </div>
+        <div class="result-box category-box">
+          <div class="label" id="resCatLabel">Lift Category</div>
+          <div class="value" id="resCategory">—</div>
+          <div class="sub" id="resCatSub">—</div>
+        </div>
+      </div>
+
+      <div class="warning-box" id="warningBox">
+        <div class="title">
+          <span>⚠</span>
+          <span id="warnTitle">Overload Warning</span>
+        </div>
+        <p id="warnText">Crane utilization exceeds recommended limits. Do not proceed without engineering review.</p>
+      </div>
+
+      <!-- Collapsible Formula & Steps -->
+      <div class="info-card">
+        <button type="button" class="collapse-header" id="formulaToggle" onclick="toggleFormula()" aria-expanded="false" aria-controls="formulaBody">
+          <span id="formulaTitle">Formula & Steps</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="collapse-body" id="formulaBody">
+          <div class="f">Static Load = Load + Rigging + Hook Block</div>
+          <div class="f">Dynamic Load = Static Load × DAF</div>
+          <div class="f">Utilization % = (Dynamic Load ÷ Capacity) × 100</div>
+          <ul class="steps" id="calcSteps" style="margin-top:8px"></ul>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3 id="legendTitle">Colour Zones</h3>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-dot green"></div>
+            <span id="legGreen"><strong>0 – 70%</strong> — Safe operating range</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot orange"></div>
+            <span id="legOrange"><strong>70 – 90%</strong> — Caution / Critical lift planning required</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot red"></div>
+            <span id="legRed"><strong>90%+</strong> — Danger / Not recommended</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3 id="stdTitle">Reference Standards</h3>
+        <div class="standards">
+          <span class="std-tag">ASME B30.5</span>
+          <span class="std-tag">ASME B30.9</span>
+          <span class="std-tag">OSHA 1926.1400</span>
+          <span class="std-tag">ISO 4301</span>
+        </div>
+        <p class="footer-note" id="disclaimer">
+          This is a planning estimate only. Always verify capacity from the manufacturer’s load chart at the actual radius, boom length and configuration. Final approval by a competent person is mandatory.
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="app-footer">
+      <div class="app-footer-brand">MU Crane Utilization</div>
+      <div class="app-footer-sub">Part of <strong>JMR Lifting Solutions</strong></div>
+      <div class="app-footer-tag">Lift Smart. Work Safe.</div>
+      <div class="app-footer-legal">Planning estimate only. Always verify with manufacturer load chart and competent person approval.</div>
+    </div>
+
+  <!-- DAF Sea State Popup -->
+  <div class="modal-overlay" id="dafModal" onclick="if(event.target===this)closeDafPopup()">
+    <div class="modal-sheet" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <h3 id="modalTitle">Select Sea State</h3>
+        <button type="button" class="modal-close" onclick="closeDafPopup()" aria-label="Close">×</button>
+      </div>
+      <p class="modal-sub" id="modalSub">Choose typical offshore DAF. You can still edit the value manually after applying.</p>
+
+      <button type="button" class="modal-option" data-daf="1.10" onclick="selectDafOption(1.10, this)">
+        <div class="opt-info">
+          <span class="opt-sea" id="optCalm">Calm</span>
+          <span class="opt-hs" id="optHsCalm">Hs &lt; 0.5 m</span>
+        </div>
+        <span class="opt-daf">1.10</span>
+      </button>
+      <button type="button" class="modal-option" data-daf="1.30" onclick="selectDafOption(1.30, this)">
+        <div class="opt-info">
+          <span class="opt-sea" id="optMod">Moderate</span>
+          <span class="opt-hs" id="optHsMod">Hs 0.5 – 1.5 m</span>
+        </div>
+        <span class="opt-daf">1.30</span>
+      </button>
+      <button type="button" class="modal-option" data-daf="1.60" onclick="selectDafOption(1.60, this)">
+        <div class="opt-info">
+          <span class="opt-sea" id="optRough">Rough</span>
+          <span class="opt-hs" id="optHsRough">Hs &gt; 1.5 m</span>
+        </div>
+        <span class="opt-daf">1.60</span>
+      </button>
+      <button type="button" class="modal-option" data-daf="2.00" onclick="selectDafOption(2.00, this)">
+        <div class="opt-info">
+          <span class="opt-sea" id="optSub">Subsea / Splash</span>
+          <span class="opt-hs" id="optHsSub">Waterline crossing</span>
+        </div>
+        <span class="opt-daf">2.00</span>
+      </button>
+
+      <p class="modal-note" id="modalNote">Typical values per API RP 2D / ADNOC / DNV for general offshore lifts without software analysis. Confirm with project procedure.</p>
+      <button type="button" class="modal-apply" id="modalApplyBtn" disabled onclick="applyDafSelection()">Apply DAF</button>
+    </div>
+  </div>
+
+  <script>
+    let currentLang = 'en';
+    let liftType = 'static';
+
+    const i18n = {
+      en: {
+        title: "Dynamic & Static Lift Analysis",
+        subtitle: "Enter values → Calculate → View results",
+        lblLiftType: "Lift Type",
+        btnStatic: "Static Lift",
+        btnDynamic: "Dynamic Lift",
+        lblLoad: "Load Weight",
+        helpLoad: "Enter the actual load weight only.",
+        lblRigging: "Rigging Weight",
+        helpRigging: "Enter the total rigging weight (slings, shackles, spreader beam, lifting accessories, etc.).",
+        lblHook: "Hook Block Weight",
+        helpHook: "Enter the crane hook block weight.",
+        lblDaf: "Dynamic Amplification Factor (DAF)",
+        helpDaf: "Default 1.10. Tap ▼ to select from sea state table. You can also type manually. Min 1.00.",
+        dafSelectBtn: "📋 Select Sea State / DAF",
+        modalTitle: "Select Sea State",
+        modalSub: "Choose typical offshore DAF. You can still edit the value manually after applying.",
+        modalApply: "Apply DAF",
+        dafRefTitle: "Offshore DAF Quick Reference",
+        seaCalm: "Calm",
+        hsCalm: "Hs < 0.5 m",
+        seaMod: "Moderate",
+        hsMod: "Hs 0.5 – 1.5 m",
+        seaRough: "Rough",
+        hsRough: "Hs > 1.5 m",
+        seaSub: "Subsea / Splash",
+        hsSub: "Waterline crossing",
+        dafRefNote: "Typical values per API RP 2D / ADNOC / DNV for general offshore lifts without software analysis. Confirm with project procedure.",
+        lblRadius: "Crane Working Radius",
+        helpRadius: "Enter the working radius (for reference / record).",
+        lblCapacity: "Crane Rated Capacity at Selected Radius",
+        helpCapacity: "Enter the crane rated capacity at the selected working radius.",
+        calcBtn: "Calculate",
+        utilLabel: "Utilization",
+        resStaticLabel: "Static Load",
+        resDynamicLabel: "Dynamic Load",
+        resAvailLabel: "Available",
+        resMarginLabel: "Safety Margin",
+        resCatLabel: "Lift Category",
+        catSafe: "SAFE",
+        catCaution: "CAUTION",
+        catNotRec: "NOT RECOMMENDED",
+        catSafeSub: "0 – 70%",
+        catCautionSub: "70 – 90%",
+        catNotRecSub: "Above 90%",
+        legendTitle: "Colour Zones",
+        legGreen: "<strong>0 – 70%</strong> — Safe operating range",
+        legOrange: "<strong>70 – 90%</strong> — Caution / Critical lift planning required",
+        legRed: "<strong>90%+</strong> — Danger / Not recommended",
+        stdTitle: "Reference Standards",
+        disclaimer: "This is a planning estimate only. Always verify capacity from the manufacturer’s load chart at the actual radius, boom length and configuration. Final approval by a competent person is mandatory.",
+        statusSafe: "SAFE",
+        statusCaution: "CAUTION",
+        statusDanger: "OVERLOAD",
+        warnTitle: "Overload Warning",
+        warnText: "Crane utilization exceeds recommended limits. Do not proceed without engineering review.",
+        formulaTitle: "Formula & Steps",
+        errCapacity: "Please enter Crane Rated Capacity greater than zero."
+      },
+      ta: {
+        title: "டைனமிக் & ஸ்டாடிக் லிஃப்ட் பகுப்பாய்வு",
+        subtitle: "மதிப்புகள் உள்ளிடு → கணக்கிடு → முடிவு பார்க்க",
+        lblLiftType: "லிஃப்ட் வகை",
+        btnStatic: "ஸ்டாடிக் லிஃப்ட்",
+        btnDynamic: "டைனமிக் லிஃப்ட்",
+        lblLoad: "சுமை எடை",
+        helpLoad: "உண்மையான சுமை எடையை மட்டும் உள்ளிடவும்.",
+        lblRigging: "ரிகிங் எடை",
+        helpRigging: "மொத்த ரிகிங் எடை (ஸ்லிங், ஷாக்கிள், ஸ்ப்ரெடர் பீம், லிஃப்டிங் அக்சஸரீஸ் போன்றவை).",
+        lblHook: "ஹூக் பிளாக் எடை",
+        helpHook: "கிரேன் ஹூக் பிளாக் எடையை உள்ளிடவும்.",
+        lblDaf: "டைனமிக் ஆம்ப்ளிஃபிகேஷன் காரணி (DAF)",
+        helpDaf: "இயல்புநிலை 1.10. ▼ அழுத்தி கடல் நிலை அட்டவணையில் இருந்து தேர்வு செய்யவும். கைமுறையாகவும் உள்ளிடலாம். குறைந்தபட்சம் 1.00.",
+        dafSelectBtn: "📋 கடல் நிலை / DAF தேர்வு",
+        modalTitle: "கடல் நிலை தேர்வு",
+        modalSub: "பொதுவான ஆஃப்ஷோர் DAF-ஐ தேர்ந்தெடுக்கவும். Apply செய்த பிறகும் மதிப்பை மாற்றலாம்.",
+        modalApply: "DAF பயன்படுத்து",
+        dafRefTitle: "ஆஃப்ஷோர் DAF விரைவு அட்டவணை",
+        seaCalm: "அமைதியான கடல்",
+        hsCalm: "Hs < 0.5 m",
+        seaMod: "மிதமான அலை",
+        hsMod: "Hs 0.5 – 1.5 m",
+        seaRough: "சீற்றமான கடல்",
+        hsRough: "Hs > 1.5 m",
+        seaSub: "சப்சீ / ஸ்ப்ளாஷ்",
+        hsSub: "நீர் மட்டத்தைக் கடக்கும்போது",
+        dafRefNote: "API RP 2D / ADNOC / DNV படி பொதுவான ஆஃப்ஷோர் லிஃப்ட்டுகளுக்கான தோராயமான மதிப்புகள். திட்ட நடைமுறையுடன் உறுதிப்படுத்துங்கள்.",
+        lblRadius: "கிரேன் ஒர்கிங் ரேடியஸ்",
+        helpRadius: "ஒர்கிங் ரேடியஸை உள்ளிடவும் (குறிப்புக்காக).",
+        lblCapacity: "தேர்ந்தெடுக்கப்பட்ட ரேடியஸில் கிரேன் திறன்",
+        helpCapacity: "தேர்ந்தெடுக்கப்பட்ட வேலை ரேடியஸில் கிரேன் ரேட்டட் திறனை உள்ளிடவும்.",
+        calcBtn: "கணக்கிடு",
+        utilLabel: "யூட்டிலைசேஷன்",
+        resStaticLabel: "ஸ்டாடிக் சுமை",
+        resDynamicLabel: "டைனமிக் சுமை",
+        resAvailLabel: "கிடைக்கும்",
+        resMarginLabel: "பாதுகாப்பு இருப்பு",
+        resCatLabel: "லிஃப்ட் வகை",
+        catSafe: "பாதுகாப்பு",
+        catCaution: "எச்சரிக்கை",
+        catNotRec: "பரிந்துரைக்கப்படாது",
+        catSafeSub: "0 – 70%",
+        catCautionSub: "70 – 90%",
+        catNotRecSub: "90%க்கு மேல்",
+        legendTitle: "வண்ண மண்டலங்கள்",
+        legGreen: "<strong>0 – 70%</strong> — பாதுகாப்பான வரம்பு",
+        legOrange: "<strong>70 – 90%</strong> — எச்சரிக்கை / முக்கியமான லிஃப்ட்",
+        legRed: "<strong>90%+</strong> — ஆபத்து / பரிந்துரைக்கப்படாது",
+        stdTitle: "குறிப்பு தரநிலைகள்",
+        disclaimer: "இது திட்டமிடல் மதிப்பீடு மட்டுமே. உற்பத்தியாளரின் லோட் சார்ட்டில் இருந்து உண்மையான ரேடியஸ், பூம் நீளம் மற்றும் கன்ஃபிகரேஷனில் திறனை சரிபார்க்கவும். தகுதிவாய்ந்த நபரின் இறுதி ஒப்புதல் கட்டாயம்.",
+        statusSafe: "பாதுகாப்பு",
+        statusCaution: "எச்சரிக்கை",
+        statusDanger: "ஓவர்லோட்",
+        warnTitle: "ஓவர்லோட் எச்சரிக்கை",
+        warnText: "கிரேன் யூட்டிலைசேஷன் பரிந்துரைக்கப்பட்ட வரம்புகளை மீறுகிறது. பொறியியல் ஆய்வு இல்லாமல் தொடர வேண்டாம்.",
+        formulaTitle: "சூத்திரம் & படிகள்",
+        errCapacity: "கிரேன் ரேட்டட் திறன் 0-ஐ விட அதிகமாக இருக்க வேண்டும்."
+      },
+      pt: {
+        title: "Análise de Içamento Dinâmico e Estático",
+        subtitle: "Inserir valores → Calcular → Ver resultados",
+        lblLiftType: "Tipo de Içamento",
+        btnStatic: "Içamento Estático",
+        btnDynamic: "Içamento Dinâmico",
+        lblLoad: "Peso da Carga",
+        helpLoad: "Insira apenas o peso real da carga.",
+        lblRigging: "Peso do Rigging",
+        helpRigging: "Insira o peso total do rigging (lingas, manilhas, viga espalhadora, acessórios de içamento, etc.).",
+        lblHook: "Peso do Bloco do Gancho",
+        helpHook: "Insira o peso do bloco do gancho do guindaste.",
+        lblDaf: "Fator de Amplificação Dinâmica (DAF)",
+        helpDaf: "Padrão 1.10. Toque em ▼ para selecionar da tabela de estado do mar. Também pode digitar manualmente. Mín. 1.00.",
+        dafSelectBtn: "📋 Selecionar Estado do Mar / DAF",
+        modalTitle: "Selecionar Estado do Mar",
+        modalSub: "Escolha o DAF típico offshore. Você ainda pode editar o valor manualmente após aplicar.",
+        modalApply: "Aplicar DAF",
+        dafRefTitle: "Referência Rápida DAF Offshore",
+        seaCalm: "Calmo",
+        hsCalm: "Hs < 0.5 m",
+        seaMod: "Moderado",
+        hsMod: "Hs 0.5 – 1.5 m",
+        seaRough: "Agitado",
+        hsRough: "Hs > 1.5 m",
+        seaSub: "Submarino / Splash",
+        hsSub: "Cruzando a linha d'água",
+        dafRefNote: "Valores típicos conforme API RP 2D / ADNOC / DNV para içamentos offshore gerais sem análise por software. Confirme com o procedimento do projeto.",
+        lblRadius: "Raio de Trabalho do Guindaste",
+        helpRadius: "Insira o raio de trabalho (para referência / registro).",
+        lblCapacity: "Capacidade Nominal no Raio Selecionado",
+        helpCapacity: "Insira a capacidade nominal do guindaste no raio de trabalho selecionado.",
+        calcBtn: "Calcular",
+        utilLabel: "Utilização",
+        resStaticLabel: "Carga Estática",
+        resDynamicLabel: "Carga Dinâmica",
+        resAvailLabel: "Disponível",
+        resMarginLabel: "Margem de Segurança",
+        resCatLabel: "Categoria do Içamento",
+        catSafe: "SEGURO",
+        catCaution: "ATENÇÃO",
+        catNotRec: "NÃO RECOMENDADO",
+        catSafeSub: "0 – 70%",
+        catCautionSub: "70 – 90%",
+        catNotRecSub: "Acima de 90%",
+        legendTitle: "Zonas de Cor",
+        legGreen: "<strong>0 – 70%</strong> — Faixa de operação segura",
+        legOrange: "<strong>70 – 90%</strong> — Atenção / Planejamento crítico necessário",
+        legRed: "<strong>90%+</strong> — Perigo / Não recomendado",
+        stdTitle: "Normas de Referência",
+        disclaimer: "Esta é apenas uma estimativa de planejamento. Sempre verifique a capacidade no gráfico de carga do fabricante no raio, comprimento da lança e configuração reais. A aprovação final por pessoa competente é obrigatória.",
+        statusSafe: "SEGURO",
+        statusCaution: "ATENÇÃO",
+        statusDanger: "SOBRECARGA",
+        warnTitle: "Aviso de Sobrecarga",
+        warnText: "A utilização do guindaste excede os limites recomendados. Não prossiga sem revisão de engenharia.",
+        formulaTitle: "Fórmula e Passos",
+        errCapacity: "Insira a Capacidade Nominal do Guindaste maior que zero."
+      },
+      hi: {
+        title: "डायनामिक और स्टेटिक लिफ्ट विश्लेषण",
+        subtitle: "मान दर्ज करें → गणना करें → परिणाम देखें",
+        lblLiftType: "लिफ्ट प्रकार",
+        btnStatic: "स्टेटिक लिफ्ट",
+        btnDynamic: "डायनामिक लिफ्ट",
+        lblLoad: "लोड वजन",
+        helpLoad: "केवल वास्तविक लोड वजन दर्ज करें।",
+        lblRigging: "रिगिंग वजन",
+        helpRigging: "कुल रिगिंग वजन दर्ज करें (स्लिंग, शैकल, स्प्रेडर बीम, लिफ्टिंग एक्सेसरीज़ आदि)।",
+        lblHook: "हुक ब्लॉक वजन",
+        helpHook: "क्रेन हुक ब्लॉक का वजन दर्ज करें।",
+        lblDaf: "डायनामिक एम्प्लिफिकेशन फैक्टर (DAF)",
+        helpDaf: "डिफ़ॉल्ट 1.10। समुद्री अवस्था तालिका से चुनने के लिए ▼ दबाएँ। मैन्युअली भी टाइप कर सकते हैं। न्यूनतम 1.00।",
+        dafSelectBtn: "📋 समुद्री अवस्था / DAF चुनें",
+        modalTitle: "समुद्री अवस्था चुनें",
+        modalSub: "सामान्य ऑफशोर DAF चुनें। लागू करने के बाद भी मान संपादित कर सकते हैं।",
+        modalApply: "DAF लागू करें",
+        dafRefTitle: "ऑफशोर DAF त्वरित संदर्भ",
+        seaCalm: "शांत",
+        hsCalm: "Hs < 0.5 m",
+        seaMod: "मध्यम",
+        hsMod: "Hs 0.5 – 1.5 m",
+        seaRough: "तूफ़ानी",
+        hsRough: "Hs > 1.5 m",
+        seaSub: "सबसी / स्प्लैश",
+        hsSub: "जल रेखा पार करते समय",
+        dafRefNote: "API RP 2D / ADNOC / DNV के अनुसार सामान्य ऑफशोर लिफ्ट के लिए अनुमानित मान (सॉफ्टवेयर विश्लेषण के बिना)। परियोजना प्रक्रिया से पुष्टि करें।",
+        lblRadius: "क्रेन वर्किंग रेडियस",
+        helpRadius: "वर्किंग रेडियस दर्ज करें (संदर्भ / रिकॉर्ड के लिए)।",
+        lblCapacity: "चयनित रेडियस पर क्रेन क्षमता",
+        helpCapacity: "चयनित वर्किंग रेडियस पर क्रेन रेटेड क्षमता दर्ज करें।",
+        calcBtn: "गणना करें",
+        utilLabel: "उपयोग",
+        resStaticLabel: "स्टेटिक लोड",
+        resDynamicLabel: "डायनामिक लोड",
+        resAvailLabel: "उपलब्ध",
+        resMarginLabel: "सुरक्षा मार्जिन",
+        resCatLabel: "लिफ्ट श्रेणी",
+        catSafe: "सुरक्षित",
+        catCaution: "सावधानी",
+        catNotRec: "अनुशंसित नहीं",
+        catSafeSub: "0 – 70%",
+        catCautionSub: "70 – 90%",
+        catNotRecSub: "90% से अधिक",
+        legendTitle: "रंग क्षेत्र",
+        legGreen: "<strong>0 – 70%</strong> — सुरक्षित संचालन सीमा",
+        legOrange: "<strong>70 – 90%</strong> — सावधानी / महत्वपूर्ण लिफ्ट योजना आवश्यक",
+        legRed: "<strong>90%+</strong> — खतरा / अनुशंसित नहीं",
+        stdTitle: "संदर्भ मानक",
+        disclaimer: "यह केवल योजना अनुमान है। वास्तविक रेडियस, बूम लंबाई और कॉन्फ़िगरेशन पर निर्माता के लोड चार्ट से क्षमता सत्यापित करें। सक्षम व्यक्ति की अंतिम स्वीकृति अनिवार्य है।",
+        statusSafe: "सुरक्षित",
+        statusCaution: "सावधानी",
+        statusDanger: "ओवरलोड",
+        warnTitle: "ओवरलोड चेतावनी",
+        warnText: "क्रेन उपयोग अनुशंसित सीमा से अधिक है। इंजीनियरिंग समीक्षा के बिना आगे न बढ़ें।",
+        formulaTitle: "सूत्र और चरण",
+        errCapacity: "क्रेन रेटेड क्षमता शून्य से अधिक दर्ज करें।"
+      }
+    };
+
+    const langLabels = { en: 'EN', ta: 'தமிழ்', pt: 'PT', hi: 'हिन्दी' };
+
+    function toggleLangMenu(e) {
+      e.stopPropagation();
+      document.getElementById('langMenu').classList.toggle('show');
+    }
+
+    function setLang(code) {
+      currentLang = code;
+      document.getElementById('langText').textContent = langLabels[code] || code.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(o => {
+        o.classList.toggle('active', o.getAttribute('data-lang') === code);
+      });
+      document.getElementById('langMenu').classList.remove('show');
+      applyLang();
+    }
+
+    // Close lang menu on outside click
+    document.addEventListener('click', function() {
+      const m = document.getElementById('langMenu');
+      if (m) m.classList.remove('show');
+    });
+
+
+    function applyLang() {
+      const t = i18n[currentLang];
+      document.getElementById('title').textContent = t.title;
+      document.getElementById('subtitle').textContent = t.subtitle;
+      document.getElementById('lblLiftType').textContent = t.lblLiftType;
+      if (document.getElementById('btnStatic') && t.btnStatic) {
+        document.getElementById('btnStatic').textContent = t.btnStatic;
+        document.getElementById('btnDynamic').textContent = t.btnDynamic;
+      }
+      document.getElementById('lblLoad').textContent = t.lblLoad;
+      document.getElementById('helpLoad').textContent = t.helpLoad;
+      document.getElementById('lblRigging').textContent = t.lblRigging;
+      document.getElementById('helpRigging').textContent = t.helpRigging;
+      document.getElementById('lblHook').textContent = t.lblHook;
+      document.getElementById('helpHook').textContent = t.helpHook;
+      document.getElementById('lblDaf').textContent = t.lblDaf;
+      document.getElementById('helpDaf').textContent = t.helpDaf;
+      if (document.getElementById('dafRefTitle')) {
+        document.getElementById('dafRefTitle').textContent = t.dafRefTitle;
+        document.getElementById('seaCalm').textContent = t.seaCalm;
+        document.getElementById('hsCalm').textContent = t.hsCalm;
+        document.getElementById('seaMod').textContent = t.seaMod;
+        document.getElementById('hsMod').textContent = t.hsMod;
+        document.getElementById('seaRough').textContent = t.seaRough;
+        document.getElementById('hsRough').textContent = t.hsRough;
+        document.getElementById('seaSub').textContent = t.seaSub;
+        document.getElementById('hsSub').textContent = t.hsSub;
+        document.getElementById('dafRefNote').textContent = t.dafRefNote;
+      }
+      
+      if (document.getElementById('dafSelectBtnText')) {
+        document.getElementById('dafSelectBtnText').textContent = '▼';
+        if (document.getElementById('dafSelectBtn')) document.getElementById('dafSelectBtn').title = t.dafSelectBtn || 'Select Sea State / DAF';
+      }
+      if (document.getElementById('modalTitle')) {
+        document.getElementById('modalTitle').textContent = t.modalTitle || 'Select Sea State';
+        document.getElementById('modalSub').textContent = t.modalSub || '';
+        document.getElementById('modalNote').textContent = t.dafRefNote || '';
+        document.getElementById('modalApplyBtn').textContent = t.modalApply || 'Apply DAF';
+        document.getElementById('optCalm').textContent = t.seaCalm || 'Calm';
+        document.getElementById('optHsCalm').textContent = t.hsCalm || '';
+        document.getElementById('optMod').textContent = t.seaMod || 'Moderate';
+        document.getElementById('optHsMod').textContent = t.hsMod || '';
+        document.getElementById('optRough').textContent = t.seaRough || 'Rough';
+        document.getElementById('optHsRough').textContent = t.hsRough || '';
+        document.getElementById('optSub').textContent = t.seaSub || 'Subsea / Splash';
+        document.getElementById('optHsSub').textContent = t.hsSub || '';
+      }
+
+      document.getElementById('lblRadius').textContent = t.lblRadius;
+      document.getElementById('helpRadius').textContent = t.helpRadius;
+      document.getElementById('lblCapacity').textContent = t.lblCapacity;
+      document.getElementById('helpCapacity').textContent = t.helpCapacity;
+      document.getElementById('calcBtnText').textContent = t.calcBtn;
+      document.getElementById('utilLabel').textContent = t.utilLabel;
+      document.getElementById('resAvailLabel').textContent = t.resAvailLabel;
+      document.getElementById('resMarginLabel').textContent = t.resMarginLabel;
+      document.getElementById('resCatLabel').textContent = t.resCatLabel;
+      document.getElementById('legendTitle').textContent = t.legendTitle;
+      document.getElementById('legGreen').innerHTML = t.legGreen;
+      document.getElementById('legOrange').innerHTML = t.legOrange;
+      document.getElementById('legRed').innerHTML = t.legRed;
+      document.getElementById('stdTitle').textContent = t.stdTitle;
+      document.getElementById('disclaimer').textContent = t.disclaimer;
+      document.getElementById('warnTitle').textContent = t.warnTitle;
+      document.getElementById('warnText').textContent = t.warnText;
+      document.getElementById('formulaTitle').textContent = t.formulaTitle;
+      // Update load card label based on current lift type
+      document.getElementById('resLoadLabel').textContent = liftType === 'static' ? t.resStaticLabel : t.resDynamicLabel;
+    }
+
+
+        let pendingDaf = null;
+
+    function openDafPopup() {
+      pendingDaf = null;
+      document.querySelectorAll('.modal-option').forEach(o => o.classList.remove('selected'));
+      document.getElementById('modalApplyBtn').disabled = true;
+      document.getElementById('dafModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDafPopup() {
+      document.getElementById('dafModal').classList.remove('show');
+      document.body.style.overflow = '';
+      pendingDaf = null;
+    }
+
+    function selectDafOption(val, el) {
+      pendingDaf = val;
+      document.querySelectorAll('.modal-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('modalApplyBtn').disabled = false;
+    }
+
+    function applyDafSelection() {
+      if (pendingDaf == null) return;
+      document.getElementById('daf').value = pendingDaf.toFixed(2);
+      document.getElementById('resultsSection').classList.remove('show');
+      closeDafPopup();
+    }
+
+    function setDafFromSea(val, el) {
+      // legacy no-op if any old chips remain
+      document.getElementById('daf').value = Number(val).toFixed(2);
+      document.getElementById('resultsSection').classList.remove('show');
+    }
+
+
+    /* ========== CALCULATION ENGINE (single source of truth) ========== */
+    const SAFETY = Object.freeze({
+      SAFE_MAX: 70,          // util < 70 → SAFE
+      CAUTION_MAX: 90,       // 70 ≤ util < 90 → CAUTION; >= 90 → NOT RECOMMENDED
+      GAUGE_MIN: 0,
+      GAUGE_MAX: 100,
+      DAF_STATIC: 1.0,
+      DAF_DYNAMIC_DEFAULT: 1.10,
+      DAF_MIN: 1.0
+    });
+
+    // Cached DOM references (avoid repeated getElementById)
+    const DOM = {};
+    function cacheDom() {
+      const ids = [
+        'loadWeight','riggingWeight','hookBlockWeight','workingRadius','craneCapacity','daf',
+        'dafGroup','resultsSection','resLoadLabel','resLoad','resAvailable','resMargin',
+        'resCategory','resCatSub','percentDisplay','statusBadge','statusIcon','statusText',
+        'progressArc','needle','warningBox','calcSteps','formulaToggle','formulaBody',
+        'btnStatic','btnDynamic','calcBtn'
+      ];
+      ids.forEach(id => { DOM[id] = document.getElementById(id); });
+    }
+
+    function parseNonNeg(raw) {
+      if (raw === '' || raw === null || raw === undefined) return { empty: true, value: 0 };
+      const n = Number(raw);
+      if (!Number.isFinite(n)) return { empty: true, value: 0, invalid: true };
+      return { empty: false, value: n, invalid: false };
+    }
+
+    /** Core pure calculation — no DOM side effects */
+    function computeUtilization({ load, rigging, hook, capacity, daf, liftType }) {
+      const staticLoad = load + rigging + hook;
+      const effectiveDaf = liftType === 'static' ? SAFETY.DAF_STATIC : daf;
+      const dynamicLoad = staticLoad * effectiveDaf;
+      const effectiveLoad = liftType === 'static' ? staticLoad : dynamicLoad;
+
+      // Guard division by zero / non-finite
+      if (!Number.isFinite(capacity) || capacity <= 0) {
+        return {
+          staticLoad, dynamicLoad, effectiveLoad, effectiveDaf,
+          utilization: NaN, available: NaN, margin: NaN, valid: false
+        };
+      }
+
+      const utilization = (effectiveLoad / capacity) * 100;
+      const available = capacity - effectiveLoad;
+      const margin = 100 - utilization;
+
+      return {
+        staticLoad,
+        dynamicLoad,
+        effectiveLoad,
+        effectiveDaf,
+        utilization,
+        available,
+        margin,
+        valid: Number.isFinite(utilization)
+      };
+    }
+
+    function getLiftCategory(util) {
+      if (!Number.isFinite(util)) {
+        return { key: 'unknown', color: '#64748b', statusClass: 'status-safe', icon: '○' };
+      }
+      if (util < SAFETY.SAFE_MAX) {
+        return { key: 'safe', color: '#22c55e', statusClass: 'status-safe', icon: '✓' };
+      }
+      if (util < SAFETY.CAUTION_MAX) {
+        return { key: 'caution', color: '#f59e0b', statusClass: 'status-caution', icon: '⚠' };
+      }
+      return { key: 'notRecommended', color: '#ef4444', statusClass: 'status-danger', icon: '✕' };
+    }
+
+    function clampGauge(util) {
+      if (!Number.isFinite(util)) return 0;
+      return Math.min(Math.max(util, SAFETY.GAUGE_MIN), SAFETY.GAUGE_MAX);
+    }
+
+    function clearFieldErrors() {
+      ['loadWeight','riggingWeight','hookBlockWeight','workingRadius','craneCapacity','daf'].forEach(id => {
+        if (DOM[id]) DOM[id].classList.remove('error');
+      });
+    }
+
+    function markError(id) {
+      if (DOM[id]) DOM[id].classList.add('error');
+    }
+
+    /**
+     * Validate inputs. Returns { ok, message, data } where data has numeric fields.
+     * Does NOT coerce negatives to zero silently for required validation.
+     */
+    function validateInputs() {
+      const t = i18n[currentLang];
+      clearFieldErrors();
+
+      const loadRaw = DOM.loadWeight ? DOM.loadWeight.value.trim() : '';
+      const rigRaw = DOM.riggingWeight ? DOM.riggingWeight.value.trim() : '';
+      const hookRaw = DOM.hookBlockWeight ? DOM.hookBlockWeight.value.trim() : '';
+      const radRaw = DOM.workingRadius ? DOM.workingRadius.value.trim() : '';
+      const capRaw = DOM.craneCapacity ? DOM.craneCapacity.value.trim() : '';
+      const dafRaw = DOM.daf ? DOM.daf.value.trim() : '';
+
+      const loadP = parseNonNeg(loadRaw);
+      const rigP = parseNonNeg(rigRaw);
+      const hookP = parseNonNeg(hookRaw);
+      const radP = parseNonNeg(radRaw);
+      const capP = parseNonNeg(capRaw);
+      const dafP = parseNonNeg(dafRaw);
+
+      // Capacity required > 0
+      if (capP.empty || capP.invalid || capP.value <= 0) {
+        markError('craneCapacity');
+        if (DOM.craneCapacity) DOM.craneCapacity.focus();
+        return { ok: false, message: t.errCapacity || 'Crane Rated Capacity must be greater than zero.' };
+      }
+
+      // Negatives not allowed
+      if (!loadP.empty && loadP.value < 0) {
+        markError('loadWeight');
+        return { ok: false, message: t.errNegative || 'Load weight cannot be negative.' };
+      }
+      if (!rigP.empty && rigP.value < 0) {
+        markError('riggingWeight');
+        return { ok: false, message: t.errNegative || 'Rigging weight cannot be negative.' };
+      }
+      if (!hookP.empty && hookP.value < 0) {
+        markError('hookBlockWeight');
+        return { ok: false, message: t.errNegative || 'Hook block weight cannot be negative.' };
+      }
+      if (!radP.empty && radP.value < 0) {
+        markError('workingRadius');
+        return { ok: false, message: t.errNegative || 'Working radius cannot be negative.' };
+      }
+
+      let daf = SAFETY.DAF_STATIC;
+      if (liftType === 'dynamic') {
+        if (dafP.empty || dafP.invalid || dafP.value < SAFETY.DAF_MIN) {
+          markError('daf');
+          return { ok: false, message: t.errDaf || 'DAF must be 1.00 or greater.' };
+        }
+        daf = dafP.value;
+      }
+
+      // Invalid non-finite
+      if (loadP.invalid || rigP.invalid || hookP.invalid) {
+        return { ok: false, message: t.errInvalid || 'Please enter valid numbers.' };
+      }
+
+      return {
+        ok: true,
+        data: {
+          load: loadP.empty ? 0 : loadP.value,
+          rigging: rigP.empty ? 0 : rigP.value,
+          hook: hookP.empty ? 0 : hookP.value,
+          radius: radP.empty ? 0 : radP.value,
+          capacity: capP.value,
+          daf,
+          liftType
+        }
+      };
+    }
+
+    function setLiftType(type) {
+      liftType = type;
+      if (DOM.btnStatic) {
+        DOM.btnStatic.classList.toggle('active', type === 'static');
+        DOM.btnStatic.setAttribute('aria-pressed', type === 'static' ? 'true' : 'false');
+      }
+      if (DOM.btnDynamic) {
+        DOM.btnDynamic.classList.toggle('active', type === 'dynamic');
+        DOM.btnDynamic.setAttribute('aria-pressed', type === 'dynamic' ? 'true' : 'false');
+      }
+      if (DOM.dafGroup && DOM.daf) {
+        if (type === 'static') {
+          DOM.dafGroup.classList.add('hidden');
+          DOM.daf.value = SAFETY.DAF_STATIC.toFixed(2);
+        } else {
+          DOM.dafGroup.classList.remove('hidden');
+          DOM.daf.value = SAFETY.DAF_DYNAMIC_DEFAULT.toFixed(2);
+        }
+      }
+      if (DOM.resultsSection) DOM.resultsSection.classList.remove('show');
+      const t = i18n[currentLang];
+      if (DOM.resLoadLabel) {
+        DOM.resLoadLabel.textContent = type === 'static' ? t.resStaticLabel : t.resDynamicLabel;
+      }
+    }
+
+    function toggleFormula() {
+      if (!DOM.formulaToggle || !DOM.formulaBody) return;
+      DOM.formulaToggle.classList.toggle('open');
+      DOM.formulaBody.classList.toggle('open');
+      const open = DOM.formulaBody.classList.contains('open');
+      DOM.formulaToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    function polarToCartesian(cx, cy, r, angleDeg) {
+      const angleRad = (180 - angleDeg) * Math.PI / 180;
+      return { x: cx + r * Math.cos(angleRad), y: cy - r * Math.sin(angleRad) };
+    }
+
+    function describeArc(cx, cy, r, startAngle, endAngle) {
+      const start = polarToCartesian(cx, cy, r, endAngle);
+      const end = polarToCartesian(cx, cy, r, startAngle);
+      const largeArc = endAngle - startAngle <= 180 ? 0 : 1;
+      return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y}`;
+    }
+
+    function runCalculate() {
+      if (!DOM.loadWeight) cacheDom();
+      const t = i18n[currentLang];
+      const validation = validateInputs();
+      if (!validation.ok) {
+        alert(validation.message);
+        return;
+      }
+
+      const { load, rigging, hook, radius, capacity, daf, liftType: lt } = validation.data;
+      const result = computeUtilization({ load, rigging, hook, capacity, daf, liftType: lt });
+
+      if (!result.valid) {
+        alert(t.errCapacity || 'Invalid calculation inputs.');
+        return;
+      }
+
+      const {
+        staticLoad, dynamicLoad, effectiveLoad, effectiveDaf,
+        utilization, available, margin
+      } = result;
+
+      const cat = getLiftCategory(utilization);
+      const gaugeUtil = clampGauge(utilization);
+
+      // Status text from category
+      let statusText, catText, catSubText;
+      if (cat.key === 'safe') {
+        statusText = t.statusSafe;
+        catText = '🟢 ' + t.catSafe;
+        catSubText = t.catSafeSub;
+      } else if (cat.key === 'caution') {
+        statusText = t.statusCaution;
+        catText = '🟠 ' + t.catCaution;
+        catSubText = t.catCautionSub;
+      } else {
+        statusText = t.statusDanger;
+        catText = '🔴 ' + t.catNotRec;
+        catSubText = t.catNotRecSub;
+      }
+
+      if (DOM.resultsSection) DOM.resultsSection.classList.add('show');
+
+      // Result cards — all from effectiveLoad
+      if (DOM.resLoadLabel) {
+        DOM.resLoadLabel.textContent = lt === 'static' ? t.resStaticLabel : t.resDynamicLabel;
+      }
+      if (DOM.resLoad) DOM.resLoad.textContent = effectiveLoad.toFixed(2);
+      if (DOM.resAvailable) {
+        DOM.resAvailable.textContent = available.toFixed(2);
+        DOM.resAvailable.style.color = available < 0 ? '#ef4444' : '';
+      }
+      if (DOM.resMargin) {
+        DOM.resMargin.textContent = margin.toFixed(1);
+        DOM.resMargin.style.color = margin < 10 ? '#ef4444' : (margin < 30 ? '#f59e0b' : '#22c55e');
+      }
+      if (DOM.resCategory) {
+        DOM.resCategory.textContent = catText;
+        DOM.resCategory.style.color = cat.color;
+      }
+      if (DOM.resCatSub) DOM.resCatSub.textContent = catSubText;
+
+      // Gauge
+      if (DOM.percentDisplay) {
+        DOM.percentDisplay.textContent = utilization.toFixed(1) + '%';
+        DOM.percentDisplay.style.color = cat.color;
+      }
+      if (DOM.statusBadge) DOM.statusBadge.className = 'status-badge ' + cat.statusClass;
+      if (DOM.statusIcon) DOM.statusIcon.textContent = cat.icon;
+      if (DOM.statusText) DOM.statusText.textContent = statusText;
+
+      const angle = gaugeUtil * 1.8;
+      if (DOM.progressArc) {
+        if (angle > 0.5) {
+          DOM.progressArc.setAttribute('d', describeArc(110, 110, 90, 0, angle));
+        } else {
+          DOM.progressArc.setAttribute('d', 'M 20 110 A 90 90 0 0 1 20 110');
+        }
+        DOM.progressArc.setAttribute('stroke', cat.color);
+      }
+      if (DOM.needle) {
+        const needleAngle = (gaugeUtil / 100) * 180 - 90;
+        DOM.needle.style.transform = `rotate(${needleAngle}deg)`;
+      }
+
+      if (DOM.warningBox) DOM.warningBox.classList.toggle('show', utilization >= SAFETY.CAUTION_MAX);
+
+      if (DOM.calcSteps) {
+        DOM.calcSteps.innerHTML =
+          '<li>Working Radius = ' + (radius > 0 ? radius.toFixed(1) + ' m' : '—') + '</li>' +
+          '<li>Static Load = ' + load.toFixed(2) + ' + ' + rigging.toFixed(2) + ' + ' + hook.toFixed(2) +
+            ' = <strong>' + staticLoad.toFixed(2) + ' t</strong></li>' +
+          '<li>DAF = ' + effectiveDaf.toFixed(2) + ' (' + (lt === 'static' ? 'Static Lift' : 'Dynamic Lift') + ')</li>' +
+          '<li>Effective Load = ' + staticLoad.toFixed(2) + ' × ' + effectiveDaf.toFixed(2) +
+            ' = <strong>' + effectiveLoad.toFixed(2) + ' t</strong></li>' +
+          '<li>Utilization = ' + effectiveLoad.toFixed(2) + ' ÷ ' + capacity.toFixed(2) +
+            ' × 100 = <strong>' + utilization.toFixed(1) + '%</strong></li>' +
+          '<li>Available = ' + capacity.toFixed(2) + ' − ' + effectiveLoad.toFixed(2) +
+            ' = <strong>' + available.toFixed(2) + ' t</strong></li>' +
+          '<li>Lift Category: <strong style="color:' + cat.color + '">' +
+            (cat.key === 'safe' ? t.catSafe : cat.key === 'caution' ? t.catCaution : t.catNotRec) +
+            '</strong></li>';
+      }
+
+      if (DOM.formulaToggle) DOM.formulaToggle.classList.remove('open');
+      if (DOM.formulaBody) DOM.formulaBody.classList.remove('open');
+      if (DOM.formulaToggle) DOM.formulaToggle.setAttribute('aria-expanded', 'false');
+
+      if (DOM.resultsSection) DOM.resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+
+    cacheDom();
+    applyLang();
+    setLiftType('static');
+
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./sw.js').catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>
