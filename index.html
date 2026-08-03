@@ -212,7 +212,19 @@
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     input[type="number"]:focus { border-color: var(--accent); }
-    input[type="number"].error { border-color: var(--red); }
+    input[type="number"].error {
+      border-color: var(--red) !important;
+      background: rgba(239, 68, 68, 0.08);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+    }
+    .helper-text.field-error {
+      color: var(--red) !important;
+      opacity: 1 !important;
+      font-weight: 600;
+    }
+    .input-group.has-error .input-label span:first-child {
+      color: var(--red);
+    }
 
     .lift-type-group { margin-bottom: 18px; }
     .lift-type-label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
@@ -908,6 +920,214 @@
       }
     }
 
+
+    /* Premium: unit toggle, actions, history, toast, print */
+    .unit-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .unit-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .unit-toggle {
+      display: flex;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .unit-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .unit-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 4px;
+    }
+    .action-btn {
+      flex: 1;
+      min-width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .action-btn:active { transform: scale(0.98); }
+    .action-btn.primary {
+      background: rgba(59,130,246,0.15);
+      border-color: rgba(59,130,246,0.35);
+      color: var(--accent);
+    }
+    .history-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-top: 14px;
+    }
+    .history-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .history-clear {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .history-item {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .history-item:active { border-color: var(--accent); }
+    .history-item .hi-top {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .history-item .hi-meta {
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .history-empty {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      padding: 12px;
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%) translateY(20px);
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 9999;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      max-width: 90vw;
+    }
+    [data-theme="light"] .toast {
+      background: #0f172a;
+      color: #fff;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .offline-badge {
+      display: none;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--green);
+      border: 1px solid rgba(34,197,94,0.35);
+      background: rgba(34,197,94,0.1);
+      padding: 3px 8px;
+      border-radius: 20px;
+      margin-top: 8px;
+    }
+    .offline-badge.show { display: inline-block; }
+    .based-on {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.45;
+    }
+    .app-footer-version {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px;
+      font-weight: 600;
+    }
+    .disclaimer-box {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.25);
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+    [data-theme="light"] .disclaimer-box {
+      background: rgba(217,119,6,0.08);
+    }
+    html[dir="rtl"] .header,
+    html[dir="rtl"] .unit-bar,
+    html[dir="rtl"] .action-bar,
+    html[dir="rtl"] .hi-top {
+      direction: rtl;
+    }
+    html[dir="rtl"] .lang-wrap { margin-left: 0; margin-right: auto; }
+    html[dir="rtl"] .header-actions { margin-left: 0; margin-right: auto; }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printReport, #printReport * { visibility: visible; }
+      #printReport {
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%;
+        padding: 24px;
+        color: #000;
+        background: #fff;
+      }
+      .no-print { display: none !important; }
+    }
+    #printReport { display: none; }
+
     .hidden { display: none !important; }
   </style>
 </head>
@@ -940,6 +1160,9 @@
           <button type="button" class="lang-option" data-lang="hi" onclick="setLang('hi')">
             <span class="flag">🇮🇳</span> हिन्दी
           </button>
+          <button type="button" class="lang-option" data-lang="ar" onclick="setLang('ar')">
+            <span class="flag">🇸🇦</span> العربية
+          </button>
         </div>
       </div>
       </div>
@@ -952,6 +1175,14 @@
     <div class="main-panel" id="mainPanel">
     <div class="form-panel">
     <div class="input-card">
+      <div class="unit-bar">
+        <span class="unit-label" id="unitBarLabel">Weight unit</span>
+        <div class="unit-toggle" id="unitToggle" role="group" aria-label="Weight unit">
+          <button type="button" class="unit-btn active" data-unit="t" onclick="setUnit('t')">t</button>
+          <button type="button" class="unit-btn" data-unit="kg" onclick="setUnit('kg')">kg</button>
+          <button type="button" class="unit-btn" data-unit="kips" onclick="setUnit('kips')">kips</button>
+        </div>
+      </div>
       <div class="lift-type-group">
         <div class="lift-type-label" id="lblLiftType">Lift Type</div>
         <div class="lift-type-toggle">
@@ -963,7 +1194,7 @@
       <div class="input-group">
         <div class="input-label">
           <span id="lblLoad">Load Weight</span>
-          <span class="unit-tag">t</span>
+          <span class="unit-tag" id="unitTagLoad">t</span>
         </div>
         <input type="number" id="loadWeight" placeholder="Example: 18" min="0" step="0.1" />
         <div class="helper-text" id="helpLoad">Enter the actual load weight only.</div>
@@ -972,7 +1203,7 @@
       <div class="input-group">
         <div class="input-label">
           <span id="lblRigging">Rigging Weight</span>
-          <span class="unit-tag">t</span>
+          <span class="unit-tag" id="unitTagRigging">t</span>
         </div>
         <input type="number" id="riggingWeight" placeholder="Example: 2.5" min="0" step="0.1" />
         <div class="helper-text" id="helpRigging">Required. Total rigging weight (slings, shackles, spreader beam, accessories, etc.).</div>
@@ -981,7 +1212,7 @@
       <div class="input-group">
         <div class="input-label">
           <span id="lblHook">Hook Block Weight</span>
-          <span class="unit-tag">t</span>
+          <span class="unit-tag" id="unitTagHook">t</span>
         </div>
         <input type="number" id="hookBlockWeight" placeholder="Example: 1.2" min="0" step="0.1" />
         <div class="helper-text" id="helpHook">Required. Enter the crane hook block weight.</div>
@@ -1004,7 +1235,7 @@
       <div class="input-group">
         <div class="input-label">
           <span id="lblCapacity">Crane Rated Capacity at Selected Radius</span>
-          <span class="unit-tag">t</span>
+          <span class="unit-tag" id="unitTagCapacity">t</span>
         </div>
         <input type="number" id="craneCapacity" placeholder="Example: 30" min="0" step="0.1" />
         <div class="helper-text" id="helpCapacity">Enter the crane rated capacity at the selected working radius.</div>
@@ -1048,12 +1279,12 @@
         <div class="result-box" id="cardLoad">
           <div class="label" id="resLoadLabel">Static Load</div>
           <div class="value" id="resLoad">—</div>
-          <div class="sub">tonne</div>
+          <div class="sub unit-sub">tonne</div>
         </div>
         <div class="result-box">
           <div class="label" id="resAvailLabel">Available</div>
           <div class="value" id="resAvailable">—</div>
-          <div class="sub">tonne</div>
+          <div class="sub unit-sub">tonne</div>
         </div>
         <div class="result-box">
           <div class="label" id="resMarginLabel">Safety Margin</div>
@@ -1073,6 +1304,12 @@
           <span id="warnTitle">Overload Warning</span>
         </div>
         <p id="warnText">Crane utilization exceeds recommended limits. Do not proceed without engineering review.</p>
+      </div>
+
+      <div class="action-bar no-print" id="actionBar">
+        <button type="button" class="action-btn primary" onclick="shareResult()">📤 <span id="btnShare">Share</span></button>
+        <button type="button" class="action-btn" onclick="exportPdf()">📄 <span id="btnPdf">PDF</span></button>
+        <button type="button" class="action-btn" onclick="copyResult()">📋 <span id="btnCopy">Copy</span></button>
       </div>
 
       <!-- Collapsible Formula & Steps -->
@@ -1114,10 +1351,22 @@
           <span class="std-tag">ASME B30.9</span>
           <span class="std-tag">OSHA 1926.1400</span>
           <span class="std-tag">ISO 4301</span>
+          <span class="std-tag">API RP 2D</span>
+          <span class="std-tag">DNV</span>
         </div>
-        <p class="footer-note" id="disclaimer">
-          This is a planning estimate only. Always verify capacity from the manufacturer’s load chart at the actual radius, boom length and configuration. Final approval by a competent person is mandatory.
-        </p>
+        <p class="based-on" id="basedOn">Based on industry practice for planning-level crane utilization checks. Not a substitute for manufacturer load charts or project-approved procedures.</p>
+        <div class="disclaimer-box" id="disclaimer">
+          ENGINEERING DISCLAIMER: This tool provides a planning estimate only. Always verify rated capacity from the manufacturer’s load chart at the actual radius, boom length, configuration and duty cycle. Dynamic factors must follow your company / client approved lifting procedure. Final approval by a competent person / appointed person is mandatory before any lift.
+        </div>
+      </div>
+
+      <div class="history-card no-print" id="historyCard">
+        <h3><span id="historyTitle">Recent calculations</span>
+          <button type="button" class="history-clear" id="historyClearBtn" onclick="clearHistory()">Clear</button>
+        </h3>
+        <div class="history-list" id="historyList">
+          <div class="history-empty" id="historyEmpty">No saved calculations yet.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1129,8 +1378,12 @@
       <div class="app-footer-brand">MU Crane Utilization</div>
       <div class="app-footer-sub">Part of <strong>JMR Lifting Solutions</strong></div>
       <div class="app-footer-tag">Lift Smart. Work Safe.</div>
-      <div class="app-footer-legal">Planning estimate only. Always verify with manufacturer load chart and competent person approval.</div>
+      <div class="app-footer-version" id="appVersion">v1.2.0 · Offline-ready PWA</div>
+      <span class="offline-badge show" id="offlineBadge">OFFLINE CAPABLE</span>
+      <div class="app-footer-legal" id="footerLegal">Planning estimate only. Always verify with manufacturer load chart and competent person approval.</div>
     </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div id="printReport"></div>
 
   <!-- DAF Sea State Popup -->
   <div class="modal-overlay" id="dafModal" onclick="if(event.target===this)closeDafPopup()">
@@ -1237,6 +1490,19 @@
         warnTitle: "Overload Warning",
         warnText: "Crane utilization exceeds recommended limits. Do not proceed without engineering review.",
         formulaTitle: "Formula & Steps",
+        basedOn: "Based on industry practice for planning-level crane utilization checks. Not a substitute for manufacturer load charts or project-approved procedures.",
+        btnShare: "Share",
+        btnPdf: "PDF",
+        btnCopy: "Copy",
+        historyTitle: "Recent calculations",
+        historyClear: "Clear",
+        historyEmpty: "No saved calculations yet.",
+        unitBarLabel: "Weight unit",
+        toastCopied: "Copied to clipboard",
+        toastShared: "Shared",
+        toastSaved: "Saved to history",
+        footerLegal: "Planning estimate only. Always verify with manufacturer load chart and competent person approval.",
+
         errCapacity: "Please enter Crane Rated Capacity greater than zero."
       },
       ta: {
@@ -1416,9 +1682,86 @@
         formulaTitle: "सूत्र और चरण",
         errCapacity: "क्रेन रेटेड क्षमता शून्य से अधिक दर्ज करें।"
       }
-    };
+,
+      ar: {
+        title: "تحليل الرفع الديناميكي والثابت",
+        subtitle: "أدخل القيم → احسب → اعرض النتائج",
+        lblLiftType: "نوع الرفع",
+        btnStatic: "رفع ثابت",
+        btnDynamic: "رفع ديناميكي",
+        lblLoad: "وزن الحمولة",
+        helpLoad: "أدخل وزن الحمولة الفعلي فقط.",
+        lblRigging: "وزن التجهيزات",
+        helpRigging: "مطلوب. إجمالي وزن التجهيزات (حمالات، شكالات، عوارض، ملحقات).",
+        lblHook: "وزن كتلة الخطاف",
+        helpHook: "مطلوب. أدخل وزن كتلة خطاف الرافعة.",
+        lblDaf: "عامل التضخيم الديناميكي (DAF)",
+        helpDaf: "الافتراضي 1.10. اختر من حالة البحر أو أدخل يدوياً. الحد الأدنى 1.00.",
+        dafSelectBtn: "📋 اختر حالة البحر / DAF",
+        modalTitle: "اختر حالة البحر",
+        modalSub: "اختر DAF نموذجي بحري. يمكن التعديل بعد التطبيق.",
+        modalApply: "تطبيق DAF",
+        dafRefTitle: "مرجع DAF سريع",
+        seaCalm: "هادئ",
+        hsCalm: "Hs < 0.5 m",
+        seaMod: "معتدل",
+        hsMod: "Hs 0.5 – 1.5 m",
+        seaRough: "هائج",
+        hsRough: "Hs > 1.5 m",
+        seaSub: "تحت الماء / رذاذ",
+        hsSub: "عبور خط الماء",
+        dafRefNote: "قيم نموذجية. أكد وفق إجراء المشروع.",
+        lblCapacity: "السعة المقدرة عند نصف القطر",
+        helpCapacity: "أدخل السعة المقدرة للرافعة عند نصف القطر المحدد.",
+        calcBtn: "احسب",
+        utilLabel: "نسبة الاستخدام",
+        resStaticLabel: "الحمولة الثابتة",
+        resDynamicLabel: "الحمولة الديناميكية",
+        resAvailLabel: "المتبقي",
+        resMarginLabel: "هامش الأمان",
+        resCatLabel: "فئة الرفع",
+        catSafe: "آمن",
+        catCaution: "تحذير",
+        catNotRec: "غير موصى به",
+        catSafeSub: "0 – 70%",
+        catCautionSub: "70 – 90%",
+        catNotRecSub: "فوق 90%",
+        legendTitle: "مناطق الألوان",
+        legGreen: "<strong>0 – 70%</strong> — نطاق تشغيل آمن",
+        legOrange: "<strong>70 – 90%</strong> — تحذير / تخطيط رفع حرج",
+        legRed: "<strong>90%+</strong> — خطر / غير موصى به",
+        stdTitle: "المعايير المرجعية",
+        basedOn: "استناداً إلى ممارسات الصناعة لفحوصات تخطيط استخدام الرافعة. ليس بديلاً عن جداول الشركة المصنعة.",
+        disclaimer: "إخلاء مسؤولية هندسية: هذه أداة تقدير تخطيطي فقط. تحقق دائماً من السعة من جدول الشركة المصنعة عند نصف القطر والطول والتكوين الفعلي. الموافقة النهائية من شخص مختص إلزامية قبل أي رفع.",
+        statusSafe: "آمن",
+        statusCaution: "تحذير",
+        statusDanger: "تجاوز",
+        warnTitle: "تحذير التحميل الزائد",
+        warnText: "تجاوزت نسبة الاستخدام الحدود الموصى بها. لا تتابع دون مراجعة هندسية.",
+        formulaTitle: "الصيغة والخطوات",
+        errCapacity: "أدخل سعة الرافعة أكبر من صفر.",
+        errLoad: "أدخل وزن الحمولة.",
+        errRigging: "وزن التجهيزات مطلوب.",
+        errHook: "وزن كتلة الخطاف مطلوب.",
+        errNegative: "القيم لا يمكن أن تكون سالبة.",
+        errDaf: "DAF يجب أن يكون 1.00 أو أكثر.",
+        errInvalid: "أدخل أرقاماً صحيحة.",
+        btnShare: "مشاركة",
+        btnPdf: "PDF",
+        btnCopy: "نسخ",
+        historyTitle: "الحسابات الأخيرة",
+        historyClear: "مسح",
+        historyEmpty: "لا توجد حسابات محفوظة.",
+        unitBarLabel: "وحدة الوزن",
+        toastCopied: "تم النسخ",
+        toastShared: "تمت المشاركة",
+        toastSaved: "تم الحفظ في السجل",
+        footerLegal: "تقدير تخطيطي فقط. تحقق دائماً من جدول الشركة المصنعة."
+      }
 
-    const langLabels = { en: 'EN', ta: 'தமிழ்', pt: 'PT', hi: 'हिन्दी' };
+    };;
+
+    const langLabels = { en: 'EN', ta: 'தமிழ்', pt: 'PT', hi: 'हिन्दी', ar: 'ع' };
 
     function toggleLangMenu(e) {
       e.stopPropagation();
@@ -1427,11 +1770,14 @@
 
     function setLang(code) {
       currentLang = code;
-      document.getElementById('langText').textContent = langLabels[code] || code.toUpperCase();
+      document.documentElement.lang = code;
+      document.documentElement.dir = (code === 'ar') ? 'rtl' : 'ltr';
+      document.getElementById('langText').textContent = (typeof langLabels !== 'undefined' && langLabels[code]) ? langLabels[code] : code.toUpperCase();
       document.querySelectorAll('.lang-option').forEach(o => {
         o.classList.toggle('active', o.getAttribute('data-lang') === code);
       });
-      document.getElementById('langMenu').classList.remove('show');
+      const menu = document.getElementById('langMenu');
+      if (menu) menu.classList.remove('show');
       applyLang();
     }
 
@@ -1443,7 +1789,9 @@
 
 
     function applyLang() {
-      const t = i18n[currentLang];
+      const t = i18n[currentLang] || i18n.en;
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
       document.getElementById('title').textContent = t.title;
       document.getElementById('subtitle').textContent = t.subtitle;
       document.getElementById('lblLiftType').textContent = t.lblLiftType;
@@ -1509,6 +1857,18 @@
       document.getElementById('formulaTitle').textContent = t.formulaTitle;
       // Update load card label based on current lift type
       document.getElementById('resLoadLabel').textContent = liftType === 'static' ? t.resStaticLabel : t.resDynamicLabel;
+      const setTxt = (id, val) => { const el = document.getElementById(id); if (el && val != null) el.innerHTML = val; };
+      setTxt('btnShare', t.btnShare);
+      setTxt('btnPdf', t.btnPdf);
+      setTxt('btnCopy', t.btnCopy);
+      setTxt('historyTitle', t.historyTitle);
+      setTxt('historyClearBtn', t.historyClear);
+      setTxt('unitBarLabel', t.unitBarLabel);
+      setTxt('basedOn', t.basedOn);
+      if (t.disclaimer) setTxt('disclaimer', t.disclaimer);
+      if (t.footerLegal) setTxt('footerLegal', t.footerLegal);
+      if (typeof renderHistory === 'function') renderHistory();
+
     }
 
 
@@ -1651,14 +2011,49 @@
       return Math.min(Math.max(util, SAFETY.GAUGE_MIN), SAFETY.GAUGE_MAX);
     }
 
-    function clearFieldErrors() {
-      ['loadWeight','riggingWeight','hookBlockWeight','craneCapacity','daf'].forEach(id => {
-        if (DOM[id]) DOM[id].classList.remove('error');
+    const FIELD_HELP = {
+      loadWeight: 'helpLoad',
+      riggingWeight: 'helpRigging',
+      hookBlockWeight: 'helpHook',
+      craneCapacity: 'helpCapacity',
+      daf: 'helpDaf'
+    };
+    const defaultHelp = {};
+
+    function storeDefaultHelps() {
+      Object.keys(FIELD_HELP).forEach(fid => {
+        const hid = FIELD_HELP[fid];
+        const el = document.getElementById(hid);
+        if (el && defaultHelp[hid] === undefined) defaultHelp[hid] = el.textContent;
       });
     }
 
-    function markError(id) {
-      if (DOM[id]) DOM[id].classList.add('error');
+    function clearFieldErrors() {
+      ['loadWeight','riggingWeight','hookBlockWeight','craneCapacity','daf'].forEach(id => {
+        if (DOM[id]) DOM[id].classList.remove('error');
+        const group = DOM[id] ? DOM[id].closest('.input-group') : null;
+        if (group) group.classList.remove('has-error');
+        const hid = FIELD_HELP[id];
+        const help = hid ? document.getElementById(hid) : null;
+        if (help) {
+          help.classList.remove('field-error');
+          if (defaultHelp[hid] !== undefined) help.textContent = defaultHelp[hid];
+        }
+      });
+    }
+
+    function markError(id, message) {
+      if (DOM[id]) {
+        DOM[id].classList.add('error');
+        const group = DOM[id].closest('.input-group');
+        if (group) group.classList.add('has-error');
+      }
+      const hid = FIELD_HELP[id];
+      const help = hid ? document.getElementById(hid) : null;
+      if (help && message) {
+        help.textContent = message;
+        help.classList.add('field-error');
+      }
     }
 
     /**
@@ -1683,34 +2078,34 @@
 
       // Load required
       if (loadP.empty || loadP.invalid || loadP.value < 0) {
-        markError('loadWeight');
+        markError('loadWeight', t.errLoad || 'Please enter Load Weight.');
         if (DOM.loadWeight) DOM.loadWeight.focus();
-        return { ok: false, message: t.errLoad || 'Please enter Load Weight.' };
+        return { ok: false };
       }
       // Rigging required
       if (rigP.empty || rigP.invalid || rigP.value < 0) {
-        markError('riggingWeight');
+        markError('riggingWeight', t.errRigging || 'Please enter Rigging Weight (required).');
         if (DOM.riggingWeight) DOM.riggingWeight.focus();
-        return { ok: false, message: t.errRigging || 'Please enter Rigging Weight (required).' };
+        return { ok: false };
       }
       // Hook required
       if (hookP.empty || hookP.invalid || hookP.value < 0) {
-        markError('hookBlockWeight');
+        markError('hookBlockWeight', t.errHook || 'Please enter Hook Block Weight (required).');
         if (DOM.hookBlockWeight) DOM.hookBlockWeight.focus();
-        return { ok: false, message: t.errHook || 'Please enter Hook Block Weight (required).' };
+        return { ok: false };
       }
       // Capacity required > 0
       if (capP.empty || capP.invalid || capP.value <= 0) {
-        markError('craneCapacity');
+        markError('craneCapacity', t.errCapacity || 'Crane Rated Capacity must be greater than zero.');
         if (DOM.craneCapacity) DOM.craneCapacity.focus();
-        return { ok: false, message: t.errCapacity || 'Crane Rated Capacity must be greater than zero.' };
+        return { ok: false };
       }
 
       let daf = SAFETY.DAF_STATIC;
       if (liftType === 'dynamic') {
         if (dafP.empty || dafP.invalid || dafP.value < SAFETY.DAF_MIN) {
-          markError('daf');
-          return { ok: false, message: t.errDaf || 'DAF must be 1.00 or greater.' };
+          markError('daf', t.errDaf || 'DAF must be 1.00 or greater.');
+          return { ok: false };
         }
         daf = dafP.value;
       }
@@ -1723,10 +2118,10 @@
       return {
         ok: true,
         data: {
-          load: loadP.value,
-          rigging: rigP.value,
-          hook: hookP.value,
-          capacity: capP.value,
+          load: toTonnes(loadP.value),
+          rigging: toTonnes(rigP.value),
+          hook: toTonnes(hookP.value),
+          capacity: toTonnes(capP.value),
           daf,
           liftType
         }
@@ -1781,12 +2176,236 @@
       return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y}`;
     }
 
+
+    /* ===== Units / History / Share / PDF ===== */
+    const APP_VERSION = '1.2.0';
+    let currentUnit = localStorage.getItem('mu-unit') || 't';
+    let lastResult = null;
+    const HISTORY_KEY = 'mu-crane-history';
+    const HISTORY_MAX = 15;
+
+    const UNIT = {
+      t:   { label: 't',     long: 'tonne',  toT: 1,        fromT: 1 },
+      kg:  { label: 'kg',    long: 'kg',     toT: 0.001,    fromT: 1000 },
+      kips:{ label: 'kips',  long: 'kips',   toT: 0.453592, fromT: 2.20462 }
+    };
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.classList.remove('show'), 2200);
+    }
+
+    function updateUnitLabels() {
+      const u = UNIT[currentUnit] || UNIT.t;
+      ['unitTagLoad','unitTagRigging','unitTagHook','unitTagCapacity'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = u.label;
+      });
+      document.querySelectorAll('.unit-sub').forEach(el => { el.textContent = u.long; });
+      document.querySelectorAll('.unit-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-unit') === currentUnit);
+      });
+    }
+
+    function setUnit(unit) {
+      if (!UNIT[unit] || unit === currentUnit) {
+        currentUnit = unit;
+        updateUnitLabels();
+        return;
+      }
+      const prev = UNIT[currentUnit] || UNIT.t;
+      const next = UNIT[unit];
+      // convert visible field values
+      ['loadWeight','riggingWeight','hookBlockWeight','craneCapacity'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el || el.value === '') return;
+        const v = parseFloat(el.value);
+        if (!Number.isFinite(v)) return;
+        const inT = v * prev.toT;
+        const display = inT * next.fromT;
+        el.value = (Math.round(display * 1000) / 1000).toString();
+      });
+      currentUnit = unit;
+      try { localStorage.setItem('mu-unit', unit); } catch(e) {}
+      updateUnitLabels();
+      if (lastResult) {
+        // re-display last result in new unit without recalc inputs from tonnes stored
+        displayLastResult();
+      }
+    }
+
+    function toTonnes(displayVal) {
+      return displayVal * (UNIT[currentUnit] || UNIT.t).toT;
+    }
+    function fromTonnes(tVal) {
+      return tVal * (UNIT[currentUnit] || UNIT.t).fromT;
+    }
+    function fmtWeight(tVal) {
+      const v = fromTonnes(tVal);
+      return (Math.abs(v) >= 100 ? v.toFixed(1) : v.toFixed(2));
+    }
+
+    function displayLastResult() {
+      if (!lastResult) return;
+      const t = i18n[currentLang] || i18n.en;
+      const r = lastResult;
+      const cat = getLiftCategory(r.utilization);
+      if (DOM.resLoad) DOM.resLoad.textContent = fmtWeight(r.effectiveLoad);
+      if (DOM.resAvailable) {
+        DOM.resAvailable.textContent = fmtWeight(r.available);
+        DOM.resAvailable.style.color = r.available < 0 ? '#ef4444' : '';
+      }
+      document.querySelectorAll('.unit-sub').forEach(el => {
+        el.textContent = (UNIT[currentUnit] || UNIT.t).long;
+      });
+    }
+
+    function buildShareText() {
+      if (!lastResult) return '';
+      const r = lastResult;
+      const u = (UNIT[currentUnit] || UNIT.t).label;
+      return [
+        'MU Crane Utilization — ' + (r.liftType === 'static' ? 'Static' : 'Dynamic') + ' Lift',
+        'Utilization: ' + r.utilization.toFixed(1) + '%',
+        'Effective Load: ' + fmtWeight(r.effectiveLoad) + ' ' + u,
+        'Capacity: ' + fmtWeight(r.capacity) + ' ' + u,
+        'Available: ' + fmtWeight(r.available) + ' ' + u,
+        'Safety Margin: ' + r.margin.toFixed(1) + '%',
+        'Category: ' + r.categoryLabel,
+        'DAF: ' + r.effectiveDaf.toFixed(2),
+        '— MU Crane Utilization v' + APP_VERSION + ' | JMR Lifting Solutions',
+        'Planning estimate only. Verify with manufacturer load chart.'
+      ].join('\n');
+    }
+
+    async function shareResult() {
+      if (!lastResult) return;
+      const text = buildShareText();
+      const t = i18n[currentLang] || i18n.en;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: 'MU Crane Utilization', text });
+          showToast(t.toastShared || 'Shared');
+          return;
+        } catch (e) {}
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(t.toastCopied || 'Copied');
+      } catch (e) {
+        showToast('Copy failed');
+      }
+    }
+
+    async function copyResult() {
+      if (!lastResult) return;
+      const t = i18n[currentLang] || i18n.en;
+      try {
+        await navigator.clipboard.writeText(buildShareText());
+        showToast(t.toastCopied || 'Copied');
+      } catch (e) {
+        showToast('Copy failed');
+      }
+    }
+
+    function exportPdf() {
+      if (!lastResult) return;
+      const r = lastResult;
+      const u = (UNIT[currentUnit] || UNIT.t).label;
+      const now = new Date().toLocaleString();
+      const html = `
+        <div style="font-family:Inter,Arial,sans-serif;color:#111;max-width:720px;margin:0 auto;">
+          <h1 style="font-size:20px;margin:0 0 4px;">MU Crane Utilization</h1>
+          <p style="margin:0 0 16px;color:#555;font-size:12px;">JMR Lifting Solutions · v${APP_VERSION} · ${now}</p>
+          <h2 style="font-size:16px;margin:0 0 12px;">${r.liftType === 'static' ? 'Static' : 'Dynamic'} Lift Analysis</h2>
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <tr><td style="padding:6px;border-bottom:1px solid #ddd;">Load</td><td style="padding:6px;border-bottom:1px solid #ddd;text-align:right;">${fmtWeight(r.load)} ${u}</td></tr>
+            <tr><td style="padding:6px;border-bottom:1px solid #ddd;">Rigging</td><td style="padding:6px;border-bottom:1px solid #ddd;text-align:right;">${fmtWeight(r.rigging)} ${u}</td></tr>
+            <tr><td style="padding:6px;border-bottom:1px solid #ddd;">Hook Block</td><td style="padding:6px;border-bottom:1px solid #ddd;text-align:right;">${fmtWeight(r.hook)} ${u}</td></tr>
+            <tr><td style="padding:6px;border-bottom:1px solid #ddd;">DAF</td><td style="padding:6px;border-bottom:1px solid #ddd;text-align:right;">${r.effectiveDaf.toFixed(2)}</td></tr>
+            <tr><td style="padding:6px;border-bottom:1px solid #ddd;"><strong>Effective Load</strong></td><td style="padding:6px;border-bottom:1px solid #ddd;text-align:right;"><strong>${fmtWeight(r.effectiveLoad)} ${u}</strong></td></tr>
+            <tr><td style="padding:6px;border-bottom:1px solid #ddd;">Crane Capacity</td><td style="padding:6px;border-bottom:1px solid #ddd;text-align:right;">${fmtWeight(r.capacity)} ${u}</td></tr>
+            <tr><td style="padding:6px;border-bottom:1px solid #ddd;"><strong>Utilization</strong></td><td style="padding:6px;border-bottom:1px solid #ddd;text-align:right;"><strong>${r.utilization.toFixed(1)}%</strong></td></tr>
+            <tr><td style="padding:6px;border-bottom:1px solid #ddd;">Available</td><td style="padding:6px;border-bottom:1px solid #ddd;text-align:right;">${fmtWeight(r.available)} ${u}</td></tr>
+            <tr><td style="padding:6px;border-bottom:1px solid #ddd;">Safety Margin</td><td style="padding:6px;border-bottom:1px solid #ddd;text-align:right;">${r.margin.toFixed(1)}%</td></tr>
+            <tr><td style="padding:6px;border-bottom:1px solid #ddd;">Lift Category</td><td style="padding:6px;border-bottom:1px solid #ddd;text-align:right;">${r.categoryLabel}</td></tr>
+          </table>
+          <p style="margin-top:20px;font-size:11px;color:#444;line-height:1.5;">
+            ENGINEERING DISCLAIMER: Planning estimate only. Always verify capacity from the manufacturer load chart at actual radius, boom length and configuration.
+            Final approval by a competent person is mandatory. Based on ASME B30.5 / OSHA / ISO planning practice.
+          </p>
+          <p style="margin-top:12px;font-size:11px;color:#666;">Signature / Competent Person: ______________________ Date: __________</p>
+        </div>`;
+      const pr = document.getElementById('printReport');
+      pr.innerHTML = html;
+      pr.style.display = 'block';
+      window.print();
+      setTimeout(() => { pr.style.display = 'none'; pr.innerHTML = ''; }, 500);
+    }
+
+    function loadHistory() {
+      try {
+        return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      } catch (e) { return []; }
+    }
+    function saveHistoryEntry(entry) {
+      const list = loadHistory();
+      list.unshift(entry);
+      if (list.length > HISTORY_MAX) list.length = HISTORY_MAX;
+      try { localStorage.setItem(HISTORY_KEY, JSON.stringify(list)); } catch (e) {}
+      renderHistory();
+    }
+    function clearHistory() {
+      try { localStorage.removeItem(HISTORY_KEY); } catch (e) {}
+      renderHistory();
+    }
+    function renderHistory() {
+      const list = loadHistory();
+      const box = document.getElementById('historyList');
+      const t = i18n[currentLang] || i18n.en;
+      if (!box) return;
+      if (!list.length) {
+        box.innerHTML = '<div class="history-empty" id="historyEmpty">' + (t.historyEmpty || 'No saved calculations yet.') + '</div>';
+        return;
+      }
+      box.innerHTML = list.map((h, i) => {
+        const u = (UNIT[h.unit] || UNIT.t).label;
+        return '<div class="history-item" onclick="restoreHistory(' + i + ')">' +
+          '<div class="hi-top"><span>' + h.utilization.toFixed(1) + '%</span><span>' + h.categoryLabel + '</span></div>' +
+          '<div class="hi-meta">' + (h.liftType === 'static' ? 'Static' : 'Dynamic') +
+          ' · Eff ' + (h.effectiveLoadDisp || '') + ' ' + u +
+          ' · Cap ' + (h.capacityDisp || '') + ' ' + u +
+          ' · ' + (h.time || '') + '</div></div>';
+      }).join('');
+    }
+    function restoreHistory(index) {
+      const list = loadHistory();
+      const h = list[index];
+      if (!h) return;
+      if (h.unit && h.unit !== currentUnit) setUnit(h.unit);
+      // values stored in tonnes
+      const u = UNIT[currentUnit] || UNIT.t;
+      document.getElementById('loadWeight').value = (h.load * u.fromT).toFixed(3).replace(/\.?0+$/, '');
+      document.getElementById('riggingWeight').value = (h.rigging * u.fromT).toFixed(3).replace(/\.?0+$/, '');
+      document.getElementById('hookBlockWeight').value = (h.hook * u.fromT).toFixed(3).replace(/\.?0+$/, '');
+      document.getElementById('craneCapacity').value = (h.capacity * u.fromT).toFixed(3).replace(/\.?0+$/, '');
+      if (h.liftType) setLiftType(h.liftType);
+      if (h.liftType === 'dynamic' && h.effectiveDaf) {
+        document.getElementById('daf').value = h.effectiveDaf.toFixed(2);
+      }
+      runCalculate();
+    }
+
+
     function runCalculate() {
       if (!DOM.loadWeight) cacheDom();
       const t = i18n[currentLang];
       const validation = validateInputs();
       if (!validation.ok) {
-        alert(validation.message);
         return;
       }
 
@@ -1794,7 +2413,7 @@
       const result = computeUtilization({ load, rigging, hook, capacity, daf, liftType: lt });
 
       if (!result.valid) {
-        alert(t.errCapacity || 'Invalid calculation inputs.');
+        markError('craneCapacity', t.errCapacity || 'Invalid calculation inputs.');
         return;
       }
 
@@ -1826,15 +2445,18 @@
       const mainPanel = document.getElementById('mainPanel');
       if (mainPanel) mainPanel.classList.add('has-results');
 
-      // Result cards — all from effectiveLoad
+      // Result cards — all from effectiveLoad (display unit)
       if (DOM.resLoadLabel) {
         DOM.resLoadLabel.textContent = lt === 'static' ? t.resStaticLabel : t.resDynamicLabel;
       }
-      if (DOM.resLoad) DOM.resLoad.textContent = effectiveLoad.toFixed(2);
+      if (DOM.resLoad) DOM.resLoad.textContent = fmtWeight(effectiveLoad);
       if (DOM.resAvailable) {
-        DOM.resAvailable.textContent = available.toFixed(2);
+        DOM.resAvailable.textContent = fmtWeight(available);
         DOM.resAvailable.style.color = available < 0 ? '#ef4444' : '';
       }
+      document.querySelectorAll('.unit-sub').forEach(function(el) {
+        el.textContent = (UNIT[currentUnit] || UNIT.t).long;
+      });
       if (DOM.resMargin) {
         DOM.resMargin.textContent = margin.toFixed(1);
         DOM.resMargin.style.color = margin < 10 ? '#ef4444' : (margin < 30 ? '#f59e0b' : '#22c55e');
@@ -1870,21 +2492,38 @@
 
       if (DOM.warningBox) DOM.warningBox.classList.toggle('show', utilization >= SAFETY.CAUTION_MAX);
 
+      const catLabel = cat.key === 'safe' ? t.catSafe : cat.key === 'caution' ? t.catCaution : t.catNotRec;
       if (DOM.calcSteps) {
         DOM.calcSteps.innerHTML =
-          '<li>Static Load = ' + load.toFixed(2) + ' + ' + rigging.toFixed(2) + ' + ' + hook.toFixed(2) +
-            ' = <strong>' + staticLoad.toFixed(2) + ' t</strong></li>' +
+          '<li>Static Load = ' + load.toFixed(3) + ' + ' + rigging.toFixed(3) + ' + ' + hook.toFixed(3) +
+            ' = <strong>' + staticLoad.toFixed(3) + ' t</strong></li>' +
           '<li>DAF = ' + effectiveDaf.toFixed(2) + ' (' + (lt === 'static' ? 'Static Lift' : 'Dynamic Lift') + ')</li>' +
-          '<li>Effective Load = ' + staticLoad.toFixed(2) + ' × ' + effectiveDaf.toFixed(2) +
-            ' = <strong>' + effectiveLoad.toFixed(2) + ' t</strong></li>' +
-          '<li>Utilization = ' + effectiveLoad.toFixed(2) + ' ÷ ' + capacity.toFixed(2) +
+          '<li>Effective Load = ' + staticLoad.toFixed(3) + ' × ' + effectiveDaf.toFixed(2) +
+            ' = <strong>' + effectiveLoad.toFixed(3) + ' t</strong></li>' +
+          '<li>Utilization = ' + effectiveLoad.toFixed(3) + ' ÷ ' + capacity.toFixed(3) +
             ' × 100 = <strong>' + utilization.toFixed(1) + '%</strong></li>' +
-          '<li>Available = ' + capacity.toFixed(2) + ' − ' + effectiveLoad.toFixed(2) +
-            ' = <strong>' + available.toFixed(2) + ' t</strong></li>' +
-          '<li>Lift Category: <strong style="color:' + cat.color + '">' +
-            (cat.key === 'safe' ? t.catSafe : cat.key === 'caution' ? t.catCaution : t.catNotRec) +
-            '</strong></li>';
+          '<li>Available = ' + capacity.toFixed(3) + ' − ' + effectiveLoad.toFixed(3) +
+            ' = <strong>' + available.toFixed(3) + ' t</strong></li>' +
+          '<li>Lift Category: <strong style="color:' + cat.color + '">' + catLabel + '</strong></li>';
       }
+
+      lastResult = {
+        load, rigging, hook, capacity, liftType: lt,
+        staticLoad, dynamicLoad, effectiveLoad, effectiveDaf,
+        utilization, available, margin,
+        categoryLabel: catLabel,
+        unit: currentUnit,
+        time: new Date().toLocaleString()
+      };
+      saveHistoryEntry({
+        load, rigging, hook, capacity, liftType: lt, effectiveDaf,
+        effectiveLoad, utilization, available, margin,
+        categoryLabel: catLabel,
+        unit: currentUnit,
+        effectiveLoadDisp: fmtWeight(effectiveLoad),
+        capacityDisp: fmtWeight(capacity),
+        time: lastResult.time
+      });
 
       if (DOM.formulaToggle) DOM.formulaToggle.classList.remove('open');
       if (DOM.formulaBody) DOM.formulaBody.classList.remove('open');
@@ -1896,8 +2535,28 @@
 
     applyTheme(getPreferredTheme());
     cacheDom();
+    storeDefaultHelps();
     applyLang();
+    storeDefaultHelps();
     setLiftType('static');
+    currentUnit = localStorage.getItem('mu-unit') || 't';
+    updateUnitLabels();
+    renderHistory();
+    ['loadWeight','riggingWeight','hookBlockWeight','craneCapacity','daf'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', function() {
+        el.classList.remove('error');
+        var group = el.closest('.input-group');
+        if (group) group.classList.remove('has-error');
+        var hid = FIELD_HELP[id];
+        var help = hid ? document.getElementById(hid) : null;
+        if (help) {
+          help.classList.remove('field-error');
+          if (defaultHelp[hid] !== undefined) help.textContent = defaultHelp[hid];
+        }
+      });
+    });
 
   </script>
   <script>
