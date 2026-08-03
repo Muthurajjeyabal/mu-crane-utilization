@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<script>
+(function(){try{var t=localStorage.getItem('mu-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();
+</script>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -44,6 +47,22 @@
       --green: #22c55e;
       --orange: #f59e0b;
       --red: #ef4444;
+      --input-bg: #0f1524;
+      --shadow: rgba(0,0,0,0.25);
+    }
+    [data-theme="light"] {
+      --bg: #f0f4fa;
+      --card: #ffffff;
+      --card2: #f7f9fc;
+      --border: #d8e0ec;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #2563eb;
+      --green: #16a34a;
+      --orange: #d97706;
+      --red: #dc2626;
+      --input-bg: #f1f5f9;
+      --shadow: rgba(15, 23, 42, 0.08);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -79,8 +98,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 24px;
+      gap: 12px;
+      margin-bottom: 20px;
       padding-top: 8px;
+      width: 100%;
+    }
+    .lang-wrap {
+      flex-shrink: 0;
+      margin-left: auto;
     }
     .logo { display: flex; align-items: center; gap: 10px; }
     .logo-icon {
@@ -112,6 +137,44 @@
       display: flex; align-items: center; gap: 6px;
     }
     .lang-btn:active { transform: scale(0.97); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      margin-left: auto;
+    }
+    .theme-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 40px;
+      height: 36px;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-btn:active { transform: scale(0.97); }
+    [data-theme="light"] input[type="number"],
+    [data-theme="light"] .input-card,
+    [data-theme="light"] .result-box,
+    [data-theme="light"] .gauge-card,
+    [data-theme="light"] .info-card,
+    [data-theme="light"] .warning-box,
+    [data-theme="light"] .lang-btn,
+    [data-theme="light"] .theme-btn,
+    [data-theme="light"] .lang-menu,
+    [data-theme="light"] .modal-sheet {
+      box-shadow: 0 1px 3px var(--shadow);
+    }
+    [data-theme="light"] .calc-btn {
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
     .page-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.03em; }
     .page-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
 
@@ -768,41 +831,79 @@
       width: 100%;
     }
 
-    /* Side-by-side from tablet landscape / small laptop */
+    /* Desktop: comfortable single column first; side-by-side when results */
     @media (min-width: 900px) {
-      .main-panel.has-results {
-        display: grid !important;
-        grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr);
-        gap: 24px;
-        align-items: start;
+      .app {
+        max-width: 880px;
+        padding: 28px 32px 40px;
+      }
+      .app-footer {
+        max-width: 880px;
+      }
+      .header {
+        margin-bottom: 20px;
+      }
+      .logo-text h1 {
+        font-size: 17px;
+      }
+      .page-title {
+        font-size: 26px;
+      }
+      .page-sub {
+        font-size: 14px;
+        margin-bottom: 22px;
+      }
+      .input-card {
+        padding: 24px 26px;
+      }
+      input[type="number"] {
+        font-size: 16px;
+        padding: 13px 14px;
+      }
+      .calc-btn {
+        font-size: 16px;
+        padding: 16px;
       }
       .main-panel:not(.has-results) {
         display: block;
-        max-width: 520px;
+        max-width: 560px;
         margin-left: auto;
         margin-right: auto;
       }
+      .main-panel.has-results {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        align-items: start;
+        max-width: 100%;
+        margin: 0;
+      }
       .main-panel.has-results .form-panel {
         position: sticky;
-        top: 12px;
+        top: 16px;
         align-self: start;
       }
       .main-panel.has-results .results-section.show {
         display: block !important;
-        animation: fadeSlide 0.35s ease;
         margin-top: 0 !important;
       }
       .main-panel.has-results .results-grid {
         grid-template-columns: 1fr 1fr;
       }
-      .main-panel.has-results .gauge-card {
-        margin-bottom: 14px;
+      .gauge-percent {
+        font-size: 42px;
       }
     }
 
     @media (min-width: 1100px) {
+      .app {
+        max-width: 980px;
+      }
+      .app-footer {
+        max-width: 980px;
+      }
       .main-panel.has-results {
-        grid-template-columns: minmax(380px, 1fr) minmax(400px, 1.05fr);
+        grid-template-columns: 1fr 1.05fr;
         gap: 32px;
       }
     }
@@ -820,7 +921,9 @@
           <p>By JMR Lifting Solutions</p>
         </div>
       </div>
-      <div class="lang-wrap">
+      <div class="header-actions">
+        <button type="button" class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle light or dark theme" title="Theme">🌙</button>
+        <div class="lang-wrap">
         <button class="lang-btn" onclick="toggleLangMenu(event)" id="langBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select language">
           <span>🌐</span> <span id="langText">EN</span>
         </button>
@@ -838,6 +941,7 @@
             <span class="flag">🇮🇳</span> हिन्दी
           </button>
         </div>
+      </div>
       </div>
     </div>
 
@@ -871,7 +975,7 @@
           <span class="unit-tag">t</span>
         </div>
         <input type="number" id="riggingWeight" placeholder="Example: 2.5" min="0" step="0.1" />
-        <div class="helper-text" id="helpRigging">Enter the total rigging weight (slings, shackles, spreader beam, lifting accessories, etc.).</div>
+        <div class="helper-text" id="helpRigging">Required. Total rigging weight (slings, shackles, spreader beam, accessories, etc.).</div>
       </div>
 
       <div class="input-group">
@@ -880,7 +984,7 @@
           <span class="unit-tag">t</span>
         </div>
         <input type="number" id="hookBlockWeight" placeholder="Example: 1.2" min="0" step="0.1" />
-        <div class="helper-text" id="helpHook">Enter the crane hook block weight.</div>
+        <div class="helper-text" id="helpHook">Required. Enter the crane hook block weight.</div>
       </div>
 
       <div class="input-group" id="dafGroup">
@@ -895,15 +999,6 @@
           </button>
         </div>
         <div class="helper-text" id="helpDaf">Default 1.10 for dynamic lifts. Tap ▼ to select from sea state table. Minimum 1.00.</div>
-      </div>
-
-      <div class="input-group">
-        <div class="input-label">
-          <span id="lblRadius">Crane Working Radius</span>
-          <span class="unit-tag">m</span>
-        </div>
-        <input type="number" id="workingRadius" placeholder="Example: 12" min="0" step="0.1" />
-        <div class="helper-text" id="helpRadius">Enter the working radius (for reference / record).</div>
       </div>
 
       <div class="input-group">
@@ -1094,9 +1189,9 @@
         lblLoad: "Load Weight",
         helpLoad: "Enter the actual load weight only.",
         lblRigging: "Rigging Weight",
-        helpRigging: "Enter the total rigging weight (slings, shackles, spreader beam, lifting accessories, etc.).",
+        helpRigging: "Required. Total rigging weight (slings, shackles, spreader beam, accessories, etc.).",
         lblHook: "Hook Block Weight",
-        helpHook: "Enter the crane hook block weight.",
+        helpHook: "Required. Enter the crane hook block weight.",
         lblDaf: "Dynamic Amplification Factor (DAF)",
         helpDaf: "Default 1.10. Tap ▼ to select from sea state table. You can also type manually. Min 1.00.",
         dafSelectBtn: "📋 Select Sea State / DAF",
@@ -1396,8 +1491,6 @@
         document.getElementById('optHsSub').textContent = t.hsSub || '';
       }
 
-      document.getElementById('lblRadius').textContent = t.lblRadius;
-      document.getElementById('helpRadius').textContent = t.helpRadius;
       document.getElementById('lblCapacity').textContent = t.lblCapacity;
       document.getElementById('helpCapacity').textContent = t.helpCapacity;
       document.getElementById('calcBtnText').textContent = t.calcBtn;
@@ -1456,6 +1549,28 @@
     }
 
 
+
+    function getPreferredTheme() {
+      try {
+        const saved = localStorage.getItem('mu-theme');
+        if (saved === 'light' || saved === 'dark') return saved;
+      } catch (e) {}
+      return 'dark';
+    }
+    function applyTheme(theme) {
+      const t = theme === 'light' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', t === 'light' ? '#f0f4fa' : '#0b0f19');
+      const btn = document.getElementById('themeBtn');
+      if (btn) btn.textContent = t === 'light' ? '☀️' : '🌙';
+      try { localStorage.setItem('mu-theme', t); } catch (e) {}
+    }
+    function toggleTheme() {
+      const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+      applyTheme(cur === 'light' ? 'dark' : 'light');
+    }
+
     /* ========== CALCULATION ENGINE (single source of truth) ========== */
     const SAFETY = Object.freeze({
       SAFE_MAX: 70,          // util < 70 → SAFE
@@ -1471,7 +1586,7 @@
     const DOM = {};
     function cacheDom() {
       const ids = [
-        'loadWeight','riggingWeight','hookBlockWeight','workingRadius','craneCapacity','daf',
+        'loadWeight','riggingWeight','hookBlockWeight','craneCapacity','daf',
         'dafGroup','resultsSection','resLoadLabel','resLoad','resAvailable','resMargin',
         'resCategory','resCatSub','percentDisplay','statusBadge','statusIcon','statusText',
         'progressArc','needle','warningBox','calcSteps','formulaToggle','formulaBody',
@@ -1537,7 +1652,7 @@
     }
 
     function clearFieldErrors() {
-      ['loadWeight','riggingWeight','hookBlockWeight','workingRadius','craneCapacity','daf'].forEach(id => {
+      ['loadWeight','riggingWeight','hookBlockWeight','craneCapacity','daf'].forEach(id => {
         if (DOM[id]) DOM[id].classList.remove('error');
       });
     }
@@ -1557,40 +1672,38 @@
       const loadRaw = DOM.loadWeight ? DOM.loadWeight.value.trim() : '';
       const rigRaw = DOM.riggingWeight ? DOM.riggingWeight.value.trim() : '';
       const hookRaw = DOM.hookBlockWeight ? DOM.hookBlockWeight.value.trim() : '';
-      const radRaw = DOM.workingRadius ? DOM.workingRadius.value.trim() : '';
       const capRaw = DOM.craneCapacity ? DOM.craneCapacity.value.trim() : '';
       const dafRaw = DOM.daf ? DOM.daf.value.trim() : '';
 
       const loadP = parseNonNeg(loadRaw);
       const rigP = parseNonNeg(rigRaw);
       const hookP = parseNonNeg(hookRaw);
-      const radP = parseNonNeg(radRaw);
       const capP = parseNonNeg(capRaw);
       const dafP = parseNonNeg(dafRaw);
 
+      // Load required
+      if (loadP.empty || loadP.invalid || loadP.value < 0) {
+        markError('loadWeight');
+        if (DOM.loadWeight) DOM.loadWeight.focus();
+        return { ok: false, message: t.errLoad || 'Please enter Load Weight.' };
+      }
+      // Rigging required
+      if (rigP.empty || rigP.invalid || rigP.value < 0) {
+        markError('riggingWeight');
+        if (DOM.riggingWeight) DOM.riggingWeight.focus();
+        return { ok: false, message: t.errRigging || 'Please enter Rigging Weight (required).' };
+      }
+      // Hook required
+      if (hookP.empty || hookP.invalid || hookP.value < 0) {
+        markError('hookBlockWeight');
+        if (DOM.hookBlockWeight) DOM.hookBlockWeight.focus();
+        return { ok: false, message: t.errHook || 'Please enter Hook Block Weight (required).' };
+      }
       // Capacity required > 0
       if (capP.empty || capP.invalid || capP.value <= 0) {
         markError('craneCapacity');
         if (DOM.craneCapacity) DOM.craneCapacity.focus();
         return { ok: false, message: t.errCapacity || 'Crane Rated Capacity must be greater than zero.' };
-      }
-
-      // Negatives not allowed
-      if (!loadP.empty && loadP.value < 0) {
-        markError('loadWeight');
-        return { ok: false, message: t.errNegative || 'Load weight cannot be negative.' };
-      }
-      if (!rigP.empty && rigP.value < 0) {
-        markError('riggingWeight');
-        return { ok: false, message: t.errNegative || 'Rigging weight cannot be negative.' };
-      }
-      if (!hookP.empty && hookP.value < 0) {
-        markError('hookBlockWeight');
-        return { ok: false, message: t.errNegative || 'Hook block weight cannot be negative.' };
-      }
-      if (!radP.empty && radP.value < 0) {
-        markError('workingRadius');
-        return { ok: false, message: t.errNegative || 'Working radius cannot be negative.' };
       }
 
       let daf = SAFETY.DAF_STATIC;
@@ -1610,10 +1723,9 @@
       return {
         ok: true,
         data: {
-          load: loadP.empty ? 0 : loadP.value,
-          rigging: rigP.empty ? 0 : rigP.value,
-          hook: hookP.empty ? 0 : hookP.value,
-          radius: radP.empty ? 0 : radP.value,
+          load: loadP.value,
+          rigging: rigP.value,
+          hook: hookP.value,
           capacity: capP.value,
           daf,
           liftType
@@ -1678,7 +1790,7 @@
         return;
       }
 
-      const { load, rigging, hook, radius, capacity, daf, liftType: lt } = validation.data;
+      const { load, rigging, hook, capacity, daf, liftType: lt } = validation.data;
       const result = computeUtilization({ load, rigging, hook, capacity, daf, liftType: lt });
 
       if (!result.valid) {
@@ -1760,7 +1872,6 @@
 
       if (DOM.calcSteps) {
         DOM.calcSteps.innerHTML =
-          '<li>Working Radius = ' + (radius > 0 ? radius.toFixed(1) + ' m' : '—') + '</li>' +
           '<li>Static Load = ' + load.toFixed(2) + ' + ' + rigging.toFixed(2) + ' + ' + hook.toFixed(2) +
             ' = <strong>' + staticLoad.toFixed(2) + ' t</strong></li>' +
           '<li>DAF = ' + effectiveDaf.toFixed(2) + ' (' + (lt === 'static' ? 'Static Lift' : 'Dynamic Lift') + ')</li>' +
@@ -1783,6 +1894,7 @@
     }
 
 
+    applyTheme(getPreferredTheme());
     cacheDom();
     applyLang();
     setLiftType('static');
