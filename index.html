@@ -947,11 +947,12 @@
       border: none;
       background: transparent;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      padding: 7px 12px;
+      padding: 7px 9px;
       border-radius: 8px;
       cursor: pointer;
+      white-space: nowrap;
     }
     .unit-btn.active {
       background: var(--accent);
@@ -1128,6 +1129,67 @@
     }
     #printReport { display: none; }
 
+
+    /* Premium gauge motion */
+    .gauge-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .gauge-card::after {
+      content: '';
+      position: absolute;
+      inset: -40% -20% auto -20%;
+      height: 70%;
+      background: radial-gradient(ellipse at center, rgba(59,130,246,0.12), transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .gauge-card.live::after { opacity: 1; }
+    .gauge-percent {
+      transition: color 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gauge-percent.pop {
+      animation: gaugePop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes gaugePop {
+      0% { transform: scale(0.85); opacity: 0.5; }
+      60% { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    .status-badge {
+      transition: background 0.35s ease, color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+    }
+    .status-badge.pulse {
+      animation: badgePulse 0.7s ease;
+    }
+    @keyframes badgePulse {
+      0% { transform: scale(0.92); }
+      50% { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+    #progressArc {
+      filter: drop-shadow(0 0 6px currentColor);
+      transition: stroke 0.45s ease, d 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #needle {
+      transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    }
+    .result-box {
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .results-section.show .result-box {
+      animation: cardIn 0.45s ease both;
+    }
+    .results-section.show .result-box:nth-child(1) { animation-delay: 0.05s; }
+    .results-section.show .result-box:nth-child(2) { animation-delay: 0.1s; }
+    .results-section.show .result-box:nth-child(3) { animation-delay: 0.15s; }
+    .results-section.show .result-box:nth-child(4) { animation-delay: 0.2s; }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .hidden { display: none !important; }
   </style>
 </head>
@@ -1178,9 +1240,10 @@
       <div class="unit-bar">
         <span class="unit-label" id="unitBarLabel">Weight unit</span>
         <div class="unit-toggle" id="unitToggle" role="group" aria-label="Weight unit">
-          <button type="button" class="unit-btn active" data-unit="t" onclick="setUnit('t')">t</button>
           <button type="button" class="unit-btn" data-unit="kg" onclick="setUnit('kg')">kg</button>
-          <button type="button" class="unit-btn" data-unit="kips" onclick="setUnit('kips')">kips</button>
+          <button type="button" class="unit-btn active" data-unit="t" onclick="setUnit('t')" title="Metric Tonne">t</button>
+          <button type="button" class="unit-btn" data-unit="lb" onclick="setUnit('lb')">lb</button>
+          <button type="button" class="unit-btn" data-unit="uston" onclick="setUnit('uston')" title="US Short Ton">US ton</button>
         </div>
       </div>
       <div class="lift-type-group">
@@ -2184,10 +2247,12 @@
     const HISTORY_KEY = 'mu-crane-history';
     const HISTORY_MAX = 15;
 
+    /* Internal calculations always in Metric Tonnes (t) */
     const UNIT = {
-      t:   { label: 't',     long: 'tonne',  toT: 1,        fromT: 1 },
-      kg:  { label: 'kg',    long: 'kg',     toT: 0.001,    fromT: 1000 },
-      kips:{ label: 'kips',  long: 'kips',   toT: 0.453592, fromT: 2.20462 }
+      kg:    { label: 'kg',     long: 'kg',           toT: 0.001,      fromT: 1000 },
+      t:     { label: 't',      long: 't (metric)',   toT: 1,          fromT: 1 },
+      lb:    { label: 'lb',     long: 'lb',           toT: 0.00045359237, fromT: 2204.6226218 },
+      uston: { label: 'US ton', long: 'US ton',       toT: 0.90718474, fromT: 1.10231131 }
     };
 
     function showToast(msg) {
@@ -2246,7 +2311,11 @@
     }
     function fmtWeight(tVal) {
       const v = fromTonnes(tVal);
-      return (Math.abs(v) >= 100 ? v.toFixed(1) : v.toFixed(2));
+      const abs = Math.abs(v);
+      if (abs >= 1000) return v.toFixed(0);
+      if (abs >= 100) return v.toFixed(1);
+      if (abs >= 10) return v.toFixed(2);
+      return v.toFixed(3).replace(/\.?0+$/, '') || '0';
     }
 
     function displayLastResult() {
@@ -2401,6 +2470,24 @@
     }
 
 
+
+    function animatePercent(el, target) {
+      if (!el) return;
+      const start = parseFloat(String(el.textContent).replace('%','')) || 0;
+      const end = target;
+      const dur = 650;
+      const t0 = performance.now();
+      function frame(now) {
+        const p = Math.min(1, (now - t0) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const val = start + (end - start) * eased;
+        el.textContent = val.toFixed(1) + '%';
+        if (p < 1) requestAnimationFrame(frame);
+        else el.textContent = end.toFixed(1) + '%';
+      }
+      requestAnimationFrame(frame);
+    }
+
     function runCalculate() {
       if (!DOM.loadWeight) cacheDom();
       const t = i18n[currentLang];
@@ -2467,12 +2554,21 @@
       }
       if (DOM.resCatSub) DOM.resCatSub.textContent = catSubText;
 
-      // Gauge
+      // Gauge — premium motion
+      const gaugeCard = document.querySelector('.gauge-card');
+      if (gaugeCard) gaugeCard.classList.add('live');
+
       if (DOM.percentDisplay) {
-        DOM.percentDisplay.textContent = utilization.toFixed(1) + '%';
         DOM.percentDisplay.style.color = cat.color;
+        DOM.percentDisplay.classList.remove('pop');
+        void DOM.percentDisplay.offsetWidth;
+        DOM.percentDisplay.classList.add('pop');
+        animatePercent(DOM.percentDisplay, utilization);
       }
-      if (DOM.statusBadge) DOM.statusBadge.className = 'status-badge ' + cat.statusClass;
+      if (DOM.statusBadge) {
+        DOM.statusBadge.className = 'status-badge ' + cat.statusClass + ' pulse';
+        setTimeout(function(){ if (DOM.statusBadge) DOM.statusBadge.classList.remove('pulse'); }, 750);
+      }
       if (DOM.statusIcon) DOM.statusIcon.textContent = cat.icon;
       if (DOM.statusText) DOM.statusText.textContent = statusText;
 
@@ -2484,10 +2580,11 @@
           DOM.progressArc.setAttribute('d', 'M 20 110 A 90 90 0 0 1 20 110');
         }
         DOM.progressArc.setAttribute('stroke', cat.color);
+        DOM.progressArc.style.color = cat.color;
       }
       if (DOM.needle) {
         const needleAngle = (gaugeUtil / 100) * 180 - 90;
-        DOM.needle.style.transform = `rotate(${needleAngle}deg)`;
+        DOM.needle.style.transform = 'rotate(' + needleAngle + 'deg)';
       }
 
       if (DOM.warningBox) DOM.warningBox.classList.toggle('show', utilization >= SAFETY.CAUTION_MAX);
